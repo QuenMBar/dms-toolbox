@@ -1,18 +1,17 @@
+require 'pry'
+
 class Application
+    def call(env)
+        verb = env['REQUEST_METHOD']
+        resp = Rack::Response.new
+        req = TaskController.new(env)
 
-  def call(env)
-    resp = Rack::Response.new
-    req = Rack::Request.new(env)
+        if req.path.match(/tasks/)
+            return req.send(verb.downcase)
+        else
+            resp.write 'Path Not Found'
+        end
 
-    if req.path.match(/test/) 
-      return [200, { 'Content-Type' => 'application/json' }, [ {:message => "test response!"}.to_json ]]
-
-    else
-      resp.write "Path Not Found"
-
+        resp.finish
     end
-
-    resp.finish
-  end
-
 end
