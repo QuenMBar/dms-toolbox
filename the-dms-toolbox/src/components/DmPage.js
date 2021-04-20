@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+//router
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+//pages
 import CampaignPage from "./CampaignPage";
+import Navbar from "./Navbar";
+import CampList from "./CampList";
 
 // Check for logged in, if not, reroute to login page
 // todo[] If logged in query database for dm info, and the campaigns they run
 // todo[] Populate a drop down with the campaigns they can chose from
 // todo[] On selection, navigate to the correct page
+
 const URL = "http://localhost:9393/dm/";
 export default class DmPage extends Component {
   state = {
@@ -26,24 +31,25 @@ export default class DmPage extends Component {
 
   render() {
     return (
-      //todo [] NavBar
-      <Router>
-        <div className='App'>
-          {this.state.camps.map((camp, i) => (
-            <Route
-              key={i}
-              path={`/dm/${camp.name}/${camp.id}`}
-              render={(routerProps) => (
-                <CampaignPage {...routerProps} camp={camp} />
-              )}
-            />
-          ))}
-        </div>
-      </Router>
-      
-
-      
-      
+      <>
+        <Router>
+          <Navbar />
+          <Switch/>
+          <div className='App'>
+            {this.state.camps.map((camp, i) => (
+              <Route
+                key={i}
+                path={`/dm/${camp.name}/${camp.id}`}
+                render={(routerProps) => (
+                  <CampaignPage {...routerProps} camp={camp} />
+                )}
+              />
+            ))}
+          </div>
+          <Switch/>
+        </Router>
+        <CampList camps={this.state.camps}/>
+      </>
     );
   }
 }
