@@ -8,9 +8,15 @@ import LoginPage from "./components/LoginPage";
 class App extends Component {
     state = {
         dmId: null,
+        name: null,
     };
 
-    setDmId = (dmId) => this.setState(dmId);
+    setDmIdAndName = (dmId, name) => {
+        this.setState({
+            dmId: dmId,
+            name: name,
+        });
+    };
 
     render() {
         return (
@@ -21,13 +27,10 @@ class App extends Component {
                         exact
                         path="/"
                         render={(routerProps) => (
-                            <LoginPage {...routerProps} setDmId={this.setDmId} dmId={this.state.dmId} />
+                            <LoginPage {...routerProps} setDmIdAndName={this.setDmIdAndName} dmId={this.state.dmId} />
                         )}
                     />
-                    <Route
-                        path="/dm"
-                        render={(routerProps) => <DmPage {...routerProps} dmId={this.state.dmId} />}
-                    />
+                    <Route path="/dm" render={(routerProps) => <DmPage {...routerProps} dmId={this.state.dmId} />} />
                 </div>
             </Router>
         );

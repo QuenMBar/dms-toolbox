@@ -5,22 +5,20 @@ class Application
         verb = env['REQUEST_METHOD']
         resp = Rack::Response.new
         path = Rack::Request.new(env).path
+
         # uninitialized constant Application::LoginController
-       
+
         if path.match(/check_login/)
-        log_req = LoginController.new(env)
-        return log_req.send(verb.downcase)
-      
+            log_req = LoginController.new(env)
+            return log_req.send(verb.downcase)
         elsif path.match(/dm/)
-        dm_req = DmController.new(env)  
-        return dm_req.send(verb.downcase) 
-        
-        else    
-        resp.write 'Path Not Found'
-        return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]
+            dm_req = DmController.new(env)
+            return dm_req.send(verb.downcase)
+        else
+            resp.write 'Path Not Found'
+            return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]
         end
 
         resp.finish
     end
-
 end

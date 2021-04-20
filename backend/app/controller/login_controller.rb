@@ -4,7 +4,7 @@ class LoginController
     def initialize(env)
         @req = Rack::Request.new(env)
         @status = 200
-        @headers = {'Content-Type' => 'application/json'}
+        @headers = { 'Content-Type' => 'application/json' }
     end
 
     def path
@@ -12,9 +12,15 @@ class LoginController
     end
 
     def get
-        user = JSON.parse @req.body.read
-        dm = Dm.all.select { |dm| dm.username == user['username'] && dm.password == user['password']}
-        return @status, @headers, [dm.to_json]
-    end
+        username = @req.env['HTTP_USERNAME']
+        password = @req.env['HTTP_PASSWORD']
 
+        dm = Dm.all.select { |d| d.username == username && d.password == password }
+        if dm == []
+            return 400, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }.to_json]
+        else
+            response_var = { id: dm[0].id, name: dm[0].username }
+            return 200, { 'Content-Type' => 'application/json' }, [response_var.to_json]
+        end
+    end
 end
