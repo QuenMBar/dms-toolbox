@@ -9,7 +9,7 @@ export default function CampList(props) {
             {props.camps.map((camp) => {
                 return (
                   <div key={camp.id}>
-                    <Link to={`/campaign/${camp.name}`}>{camp.name}</Link>
+                    <Link to={`/campaign/${camp.id}`}>{camp.name}</Link>
                   </div>
                 );
             })}

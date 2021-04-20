@@ -3,9 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import DmPage from "./components/DmPage";
 import LoginPage from "./components/LoginPage";
-import Error from "./components/Error";
 
-//const URL = http://localhost:9393/
+
 class App extends Component {
     state = {
         dmId: null,
@@ -22,7 +21,6 @@ class App extends Component {
     render() {
         return (
           <Router>
-            <Switch>
               <div className='App'>
                 {/* localhost:3000/dm/:campaign_id/:subpages */}
                 <Route
@@ -43,11 +41,7 @@ class App extends Component {
                     <DmPage {...routerProps} dmId={this.state.dmId} />
                   )}
                 />
-              </div>
-              <Route path='*'>
-                <Error />
-              </Route>
-            </Switch>
+              </div>         
           </Router>
         );
     }
