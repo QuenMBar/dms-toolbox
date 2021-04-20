@@ -7,11 +7,11 @@ class Application
         req = LoginController.new(env)
 
         # uninitialized constant Application::LoginController
-        return resp.write 'Path Not Found' unless req.path.match(/check_login/)
+        unless req.path.match(/check_login/)
+            return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]
+        end
         return req.send(verb.downcase) if req.path.match(/check_login/)
 
-        # elsif req.path.match(/check_login/)
-        #     # Validate login.  Pass back id if true or -1 if false
         resp.finish
     end
 end
