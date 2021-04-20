@@ -11,3 +11,6 @@ tmp
 *.swp
 
 db/*.db
+
+package-lock.json
+Gemfile.lock
