@@ -25,7 +25,6 @@ class App extends Component {
                         )}
                     />
                     <Route
-                        exact
                         path="/dm"
                         render={(routerProps) => <DmPage {...routerProps} dmId={this.state.dmId} />}
                     />
