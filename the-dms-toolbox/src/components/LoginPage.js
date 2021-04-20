@@ -9,7 +9,6 @@ export default class LoginPage extends Component {
     state = {
         username: "",
         password: "",
-        loggedIn: false,
     };
 
     updateUser = (e) => this.setState({ username: e.target.value });
@@ -18,12 +17,18 @@ export default class LoginPage extends Component {
     submitForm = (e) => {
         e.preventDefault();
 
-        fetch(`http://127.0.0.1:9393/check_login?username=${this.state.username}&password=${this.state.password}`)
-            .then((res) => res.json)
+        fetch(`http://127.0.0.1:9393/check_login`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "username": this.state.username,
+                "password": this.state.password,
+            },
+        })
+            .then((res) => res.json())
             .then((res) => {
-                if (res.id !== null) {
-                    this.props.setDmId(res.id);
-                    this.setState({ loggedIn: true });
+                if (res.id !== undefined) {
+                    this.props.setDmIdAndName(res.id, res.name);
                 } else {
                     this.setState({ password: "" });
                     // TODO: Display error
@@ -31,6 +36,7 @@ export default class LoginPage extends Component {
             })
             .catch((e) => {
                 this.setState({ password: "" });
+                // TODO: Display (bigger?) error
                 console.error("e: ", e);
             });
     };
@@ -38,7 +44,7 @@ export default class LoginPage extends Component {
     render() {
         return (
             <Fragment>
-                {this.state.loggedIn ? <Redirect to="/dm" /> : null}
+                {this.props.dmId !== null ? <Redirect to="/dm" /> : null}
                 <Paper component="form" onSubmit={this.submitForm} className="loginPaper">
                     {/* <input type="text" value={this.state.username} onChange={this.updateUser}></input> */}
                     <TextField

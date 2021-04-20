@@ -22,10 +22,16 @@ class LoginController
 
     #R
     def get
-        # user = JSON.parse @req.body.read
-        # dm = Dm.all.select { |dm| dm.username == user['username'] && dm.password == user['password'] }
-        dm = Dm.all.sample
-        return 200, { 'Content-Type' => 'application/json' }, [dm.to_json]
+        username = @req.env['HTTP_USERNAME']
+        password = @req.env['HTTP_PASSWORD']
+
+        dm = Dm.all.select { |d| d.username == username && d.password == password }
+        if dm == []
+            return 400, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }.to_json]
+        else
+            response_var = { id: dm[0].id, name: dm[0].username }
+            return 200, { 'Content-Type' => 'application/json' }, [response_var.to_json]
+        end
     end
 
     #U
