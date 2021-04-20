@@ -4,6 +4,6 @@ import React, { Component } from "react";
 
 export default class CampaignPage extends Component {
     render() {
-        return <div>{this.props.camp.name}</div>;
+        return this.props.camp.name;
     }
 }

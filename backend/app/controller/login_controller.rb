@@ -22,8 +22,9 @@ class LoginController
 
     #R
     def get
-        user = JSON.parse @req.body.read
-        dm = Dm.all.select { |dm| dm.username == user['username'] && dm.password == user['password'] }
+        # user = JSON.parse @req.body.read
+        # dm = Dm.all.select { |dm| dm.username == user['username'] && dm.password == user['password'] }
+        dm = Dm.all.sample
         return 200, { 'Content-Type' => 'application/json' }, [dm.to_json]
     end
 

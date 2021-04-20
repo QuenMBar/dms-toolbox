@@ -17,7 +17,8 @@ export default class DmPage extends Component {
         return (
             <Router>
                 <div className="App">
-                    {this.props.dmId ? this.props.dmId : "Null"}
+                    {/* {this.props.dmId ? this.props.dmId : "Null"} */}
+                    DM
                     {/* localhost:3000/:dm_id/:campaign_id/:subpages */}
                     {this.dummyData.map((camp, i) => (
                         <Route

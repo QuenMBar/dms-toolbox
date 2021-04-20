@@ -24,11 +24,7 @@ class App extends Component {
                             <LoginPage {...routerProps} setDmId={this.setDmId} dmId={this.state.dmId} />
                         )}
                     />
-                    <Route
-                        exact
-                        path="/dm"
-                        render={(routerProps) => <DmPage {...routerProps} dmId={this.state.dmId} />}
-                    />
+                    <Route path="/dm" render={(routerProps) => <DmPage {...routerProps} dmId={this.state.dmId} />} />
                 </div>
             </Router>
         );
