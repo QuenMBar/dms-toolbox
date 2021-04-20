@@ -29,18 +29,19 @@ export default class LoginPage extends Component {
         //     body: JSON.stringify(user),
         // };
 
-        fetch(`http://127.0.0.1:9393/check_login?username=${this.state.username}&password=${this.state.password}`)
-            .then((res) => res.json)
-            .then((res) => {
-                if (res.id !== null) {
-                    this.props.setDmId(res.id);
-                    this.setState({ loggedIn: true });
-                } else {
-                    this.setState({ password: "" });
-                    // TODO: Display error
-                }
-            })
-            .catch((e) => console.error("e: ", e));
+        fetch(`http://localhost:9393/check_login?username=${this.state.username}&password=${this.state.password}`
+        )
+          .then((res) => res.json)
+          .then((res) => {
+            if (res.id !== null) {
+              this.props.setDmId(res.id);
+              this.setState({ loggedIn: true });
+            } else {
+              this.setState({ password: "" });
+              // TODO: Display error
+            }
+          })
+          .catch((e) => console.error("e: ", e));
     };
 
     render() {
