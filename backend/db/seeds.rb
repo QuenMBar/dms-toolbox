@@ -29,7 +29,7 @@ puts 'Initiating Campaigns 🗺'
 5.times { Campaign.create(name: Faker::Games::DnD.city, dm: Dm.all.sample) }
 
 puts 'Seeding Characters 🧝🏻‍♂️🧝🏽‍♀️🧝🏽‍🧝🏾‍♂️'
-15.times do
+25.times do
     Character.create(
         name: Faker::Books::Dune.character,
         klass: Faker::Games::DnD.klass,
