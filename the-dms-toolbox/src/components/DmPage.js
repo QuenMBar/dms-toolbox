@@ -11,8 +11,6 @@ const URL = "http://localhost:9393/dm/";
 export default class DmPage extends Component {
     constructor(props) {
         super(props);
-        console.log(props.dmId);
-
         this.state = {
             id: props.dmId,
             camps: [],
@@ -38,12 +36,13 @@ export default class DmPage extends Component {
 
     render() {
         //Todo[]make list prettier
+        //Todo[]make a button that will add a campaign
         return (
             <div>
                 {this.props.dmId === undefined ? <Redirect to="/" /> : null}
                 <Navbar />
                 <Switch>
-                    <Route path="/campaign/:id" children={<CampaignPage />}></Route>
+                    <Route path="/dm/:id" children={<CampaignPage />}></Route>
                     <CampList camps={this.state.camps} />
                     <Route path="*">
                         <Error />
