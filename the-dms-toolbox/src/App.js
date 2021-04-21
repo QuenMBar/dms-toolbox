@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import DmPage from "./components/DmPage";
 import LoginPage from "./components/LoginPage";
@@ -8,8 +8,8 @@ import LoginPage from "./components/LoginPage";
 // ?NOTE Theme Provider?
 class App extends Component {
     state = {
-        dmId: null,
-        name: null,
+        dmId: undefined,
+        name: undefined,
     };
 
     setDmIdAndName = (dmId, name) => {

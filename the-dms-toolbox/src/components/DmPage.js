@@ -1,22 +1,30 @@
 import React, { Component, Fragment } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
+//pages
 import CampaignPage from "./CampaignPage";
+import Navbar from "./Navbar";
+import CampList from "./CampList";
+import Error from "./Error";
 import CharacterContainer from "./CharacterContainer";
 
-// Check for logged in, if not, reroute to login page
-// todo[] If logged in query database for dm info, and the campaigns they run
-// todo[] Populate a drop down with the campaigns they can chose from
-// todo[] On selection, navigate to the correct page
 const URL = "http://localhost:9393/dm/";
+
 export default class DmPage extends Component {
-    state = {
-        id: 8,
-        camps: [],
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: props.dmId,
+            camps: [],
+        };
+    }
 
     componentDidMount() {
-        //fetch using the url+id of the dm that is in props
-        //return the campaign names and campaign ids
+        if (this.state.id !== undefined) {
+            this.getDM();
+        }
+    }
+
+    getDM = () => {
         fetch(`${URL}${this.state.id}`)
             .then((res) => res.json())
             .then((data) =>
@@ -25,23 +33,22 @@ export default class DmPage extends Component {
                 })
             )
             .catch((e) => console.error("e:", e));
-    }
+    };
 
     render() {
+        //Todo[]make list prettier
+        //Todo[]make a button that will add a campaign
         return (
-            //todo [] NavBar
             <Fragment>
-                <Router>
-                    <div className="App">
-                        {this.state.camps.map((camp, i) => (
-                            <Route
-                                key={i}
-                                path={`/dm/${camp.name}/${camp.id}`}
-                                render={(routerProps) => <CampaignPage {...routerProps} camp={camp} />}
-                            />
-                        ))}
-                    </div>
-                </Router>
+                {this.props.dmId === undefined ? <Redirect to="/" /> : null}
+                <Navbar />
+                <Switch>
+                    <Route path="/dm/:id" children={<CampaignPage />}></Route>
+                    <CampList camps={this.state.camps} />
+                    <Route path="*">
+                        <Error />
+                    </Route>
+                </Switch>
                 {/* <CharacterContainer /> */}
             </Fragment>
         );
