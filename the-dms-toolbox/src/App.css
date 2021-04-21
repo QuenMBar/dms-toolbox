@@ -57,11 +57,3 @@
 .loginBttn {
     width: 140px;
 }
-
-.gridList {
-    width: 30vw;
-    height: 90vh;
-    top: 3vh;
-    position: absolute;
-    right: 1.5vw;
-}

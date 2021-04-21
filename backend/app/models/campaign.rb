@@ -12,6 +12,13 @@ class Campaign < ActiveRecord::Base
     end
 
     def return_characters
-        characters.includes(:items, :notes).map { |c| c.to_json }
+        characters
+            .includes(:items, :notes)
+            .map do |c|
+                nc = c.as_json
+                nc['items'] = c.items.as_json
+                nc['notes'] = c.notes.as_json
+                nc
+            end
     end
 end

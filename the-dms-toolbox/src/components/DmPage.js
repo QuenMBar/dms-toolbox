@@ -42,7 +42,7 @@ export default class DmPage extends Component {
                         ))}
                     </div>
                 </Router>
-                <CharacterContainer />
+                {/* <CharacterContainer /> */}
             </Fragment>
         );
     }

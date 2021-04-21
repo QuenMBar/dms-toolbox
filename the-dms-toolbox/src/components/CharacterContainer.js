@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -32,6 +32,14 @@ const useStyles = (theme) => ({
         "right": "1vw",
         "background": "rgba(120, 144, 156, .3)",
     },
+    gridList: {
+        width: "30vw",
+        height: "90vh",
+        top: "3vh",
+        position: "absolute",
+        right: "1.5vw",
+        textAlign: "left",
+    },
 });
 
 class CharacterContainer extends Component {
@@ -41,7 +49,14 @@ class CharacterContainer extends Component {
 
     // TODO: Replace with camp id
     componentDidMount() {
-        fetch("http://127.0.0.1:9393/characters?campId=13");
+        fetch(`http://127.0.0.1:9393/characters?campId=14`)
+            .then((res) => res.json())
+            .then((characters) => {
+                this.setState({ characters: characters });
+            })
+            .catch((e) => {
+                console.error("e: ", e);
+            });
     }
 
     render() {
@@ -49,10 +64,10 @@ class CharacterContainer extends Component {
         const { classes } = this.props;
         return (
             <Paper className={classes.root}>
-                <GridList cellHeight={160} className="gridList" cols={1}>
-                    {arr.map((tile, i) => (
+                <GridList cellHeight="auto" className={classes.gridList} cols={1}>
+                    {this.state.characters.map((char, i) => (
                         <GridListTile key={i} cols={1}>
-                            <CharacterCard />
+                            <CharacterCard char={char} />
                         </GridListTile>
                     ))}
                 </GridList>
