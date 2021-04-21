@@ -44,7 +44,7 @@ export default class LoginPage extends Component {
     render() {
         return (
             <Fragment>
-                {this.props.dmId !== null ? <Redirect to="/dm" /> : null}
+                {this.props.dmId !== undefined ? <Redirect to="/dm" /> : null}
                 <Paper component="form" onSubmit={this.submitForm} className="loginPaper">
                     {/* <input type="text" value={this.state.username} onChange={this.updateUser}></input> */}
                     <TextField

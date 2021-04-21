@@ -14,6 +14,9 @@ class Application
         elsif path.match(/dm/)
             dm_req = DmController.new(env)
             return dm_req.send(verb.downcase)
+        # elsif path.match(/campaign/)
+        #     camp_req = CampaignController.new(env)
+        #     return camp_req.send(verb.downcase)
         else
             resp.write 'Path Not Found'
             return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]
