@@ -43,7 +43,7 @@ export default class DmPage extends Component {
                 {this.props.dmId === undefined ? <Redirect to="/" /> : null}
                 <Navbar />
                 <Switch>
-                    <Route path="/dm/:id" children={<CampaignPage />}></Route>
+                    <Route path="/dm/:id" component={CampaignPage}></Route>
                     <CampList camps={this.state.camps} />
                     <Route path="*">
                         <Error />
