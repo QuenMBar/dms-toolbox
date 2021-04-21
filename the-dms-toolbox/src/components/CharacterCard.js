@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(stat, modifier, raw) {
+    return { stat, modifier, raw };
 }
 
 const rows = [
@@ -90,10 +90,8 @@ export default function RecipeReviewCard(props) {
                     <TableHead>
                         <TableRow>
                             <TableCell>Stat</TableCell>
-                            <TableCell align="right">Calories</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                            <TableCell align="right">Modifier</TableCell>
+                            <TableCell align="right">Raw Number</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -104,8 +102,6 @@ export default function RecipeReviewCard(props) {
                                 </TableCell>
                                 <TableCell align="right">{row.calories}</TableCell>
                                 <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
