@@ -13,7 +13,8 @@ export default class DmPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.dmId,
+            // id: props.dmId,
+            id: 14,
             camps: [],
         };
     }
@@ -49,7 +50,7 @@ export default class DmPage extends Component {
                         <Error />
                     </Route>
                 </Switch>
-                {/* <CharacterContainer /> */}
+                <CharacterContainer />
             </Fragment>
         );
     }

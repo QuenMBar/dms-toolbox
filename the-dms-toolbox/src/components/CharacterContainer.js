@@ -33,11 +33,11 @@ const useStyles = (theme) => ({
         "background": "rgba(120, 144, 156, .3)",
     },
     gridList: {
-        width: "30vw",
-        height: "90vh",
-        top: "3vh",
-        position: "absolute",
-        right: "1.5vw",
+        width: "90%",
+        height: "93%",
+        top: "3.5%",
+        position: "relative",
+        left: "5%",
         textAlign: "left",
     },
 });
@@ -49,7 +49,7 @@ class CharacterContainer extends Component {
 
     // TODO: Replace with camp id
     componentDidMount() {
-        fetch(`http://127.0.0.1:9393/characters?campId=14`)
+        fetch(`http://127.0.0.1:9393/characters?campId=32`)
             .then((res) => res.json())
             .then((characters) => {
                 this.setState({ characters: characters });
@@ -59,15 +59,23 @@ class CharacterContainer extends Component {
             });
     }
 
+    deleteNote = (noteId) => {
+        console.log(noteId);
+        // TODO: Once note controller is done
+    };
+
+    createNote = (text) => {};
+
+    updateNote = (noteId, newText) => {};
+
     render() {
-        const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         const { classes } = this.props;
         return (
             <Paper className={classes.root}>
                 <GridList cellHeight="auto" className={classes.gridList} cols={1}>
                     {this.state.characters.map((char, i) => (
                         <GridListTile key={i} cols={1}>
-                            <CharacterCard char={char} />
+                            <CharacterCard char={char} deleteNote={this.deleteNote} />
                         </GridListTile>
                     ))}
                 </GridList>
