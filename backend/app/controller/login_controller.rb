@@ -16,11 +16,8 @@ class LoginController
         password = @req.env['HTTP_PASSWORD']
 
         dm = Dm.all.select { |d| d.username == username && d.password == password }
-        if dm == []
-            return 400, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }.to_json]
-        else
-            response_var = { id: dm[0].id, name: dm[0].username }
-            return 200, { 'Content-Type' => 'application/json' }, [response_var.to_json]
-        end
+        return 400, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }.to_json] if dm == []
+        response_var = { id: dm[0].id, name: dm[0].username }
+        return 200, { 'Content-Type' => 'application/json' }, [response_var.to_json]
     end
 end

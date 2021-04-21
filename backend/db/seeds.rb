@@ -23,14 +23,14 @@ def item_variety
 end
 
 puts 'Nerd Factory 🧙🏻‍♂️🧙🏾‍♀️🧙🏻‍♂️'
-Dm.create(username: "a", password: "a")
+Dm.create(username: 'a', password: 'a')
 3.times { Dm.create(username: Faker::Name.name, password: Faker::Lorem.word) }
 
 puts 'Initiating Campaigns 🗺'
 10.times { Campaign.create(name: Faker::Games::DnD.city, dm: Dm.all.sample) }
 
 puts 'Seeding Characters 🧝🏻‍♂️🧝🏽‍♀️🧝🏽‍🧝🏾‍♂️'
-20.times do
+25.times do
     Character.create(
         name: Faker::Books::Dune.character,
         klass: Faker::Games::DnD.klass,

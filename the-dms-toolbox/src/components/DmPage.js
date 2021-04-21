@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 //pages
 import CampaignPage from "./CampaignPage";
 import Navbar from "./Navbar";
 import CampList from "./CampList";
 import Error from "./Error";
+import CharacterContainer from "./CharacterContainer";
 
 const URL = "http://localhost:9393/dm/";
 
@@ -38,7 +39,7 @@ export default class DmPage extends Component {
         //Todo[]make list prettier
         //Todo[]make a button that will add a campaign
         return (
-            <div>
+            <Fragment>
                 {this.props.dmId === undefined ? <Redirect to="/" /> : null}
                 <Navbar />
                 <Switch>
@@ -48,7 +49,8 @@ export default class DmPage extends Component {
                         <Error />
                     </Route>
                 </Switch>
-            </div>
+                {/* <CharacterContainer /> */}
+            </Fragment>
         );
     }
 }

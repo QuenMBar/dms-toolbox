@@ -10,4 +10,15 @@ class Campaign < ActiveRecord::Base
     def campaign_notes
         notes.where(title: 'campaign')
     end
+
+    def return_characters
+        characters
+            .includes(:items, :notes)
+            .map do |c|
+                nc = c.as_json
+                nc['items'] = c.items.as_json
+                nc['notes'] = c.notes.as_json
+                nc
+            end
+    end
 end
