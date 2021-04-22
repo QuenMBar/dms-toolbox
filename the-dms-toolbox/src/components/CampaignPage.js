@@ -126,9 +126,7 @@ class CampaignPage extends Component {
       this.setState(
         {
           charNotes: newNoteList,
-        },
-        this.updateNote(newNote, event)
-      );
+        });
     }
   };
 
@@ -143,7 +141,10 @@ class CampaignPage extends Component {
 
     fetch(noteURL, configObj)
       .then((r) => r.json)
-      .then(this.getNotes)
+      .then(() => {
+        this.getNotes();
+        event.target.reset();
+      })
       .catch((e) => console.error("e:", e));
   };
 
