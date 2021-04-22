@@ -56,26 +56,30 @@ export default function CharacterNoteContainer(props) {
     return (
         <div className={classes.root}>
             <GridList className={classes.gridList} cellHeight="auto" cols={2.5}>
-                {props.notes.map((note) => (
-                    <GridListTile key={note.id} cols={1}>
-                        {/* <img src={tile.img} alt={tile.title} />
-                        <GridListTileBar
-                            title={tile.title}
-                            classes={{
-                                root: classes.titleBar,
-                                title: classes.title,
-                            }}
-                            actionIcon={
-                                <IconButton aria-label={`star ${tile.title}`}>
-                                    <StarBorderIcon className={classes.title} />
-                                </IconButton>
-                            }
-                        /> */}
-                        <CharacterNote note={note} deleteNote={props.deleteNote} />
-                    </GridListTile>
-                ))}
+                {props.notes.map((note) =>
+                    note.id !== undefined ? (
+                        <GridListTile key={note.created_at} cols={1}>
+                            <CharacterNote
+                                note={note}
+                                deleteNote={props.deleteNote}
+                                editNote={props.editNote}
+                                create={false}
+                            />
+                        </GridListTile>
+                    ) : (
+                        <GridListTile key={note.created_at} cols={1}>
+                            <CharacterNote
+                                note={note}
+                                deleteNote={props.deleteNote}
+                                editNote={props.editNote}
+                                create={true}
+                                saveNote={props.saveNote}
+                            />
+                        </GridListTile>
+                    )
+                )}
                 <GridListTile cols={1}>
-                    <IconButton aria-label="create note">
+                    <IconButton onClick={props.createNote} aria-label="create note">
                         <AddCircleIcon className={classes.icon} />
                     </IconButton>
                 </GridListTile>

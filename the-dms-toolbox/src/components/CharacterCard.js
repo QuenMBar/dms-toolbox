@@ -24,6 +24,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const useStyles = (theme) => ({
     root: {
@@ -203,10 +204,8 @@ class CharacterCard extends Component {
 
     handleSub = () => {
         if (!this.state.isCreate) {
-            this.props.updateCharacter(this.state.characterEdit);
+            this.props.updateCharacter(this.state.characterEdit).then(this.updateState);
             this.setState({
-                // TODO: Figure Out Why It Doesnt Update
-                character: this.state.characterEdit,
                 createOrEdit: false,
             });
         } else {
@@ -219,8 +218,132 @@ class CharacterCard extends Component {
         this.props.deleteCharacter(this.state.character.id);
     };
 
+    deleteItem = (id, name, description) => {
+        let ind;
+        if (id !== undefined) {
+            ind = this.state.characterEdit.items.findIndex((item) => item.id === id);
+        } else {
+            ind = this.state.characterEdit.items.findIndex(
+                (item) => item.name === name && item.description === description
+            );
+        }
+        this.setState({
+            characterEdit: {
+                ...this.state.characterEdit,
+                items: [
+                    ...this.state.characterEdit.items.slice(0, ind),
+                    ...this.state.characterEdit.items.slice(ind + 1),
+                ],
+            },
+        });
+    };
+
+    newItem = () => {
+        this.setState({
+            characterEdit: {
+                ...this.state.characterEdit,
+                items: [
+                    ...this.state.characterEdit.items,
+                    { name: "", description: "", created_at: Date.now().toString() },
+                ],
+            },
+        });
+    };
+
+    editNote = (noteId, newText) => {
+        let i = this.state.character.notes.findIndex((note) => note.id === noteId);
+        let extraNotes = this.state.character.notes.filter((note) => note.id === undefined);
+        let normalNotes = this.state.character.notes.filter((note) => note.id !== undefined);
+        if (newText !== this.state.character.notes[i].text) {
+            let newCharacterVal = {
+                ...this.state.character,
+                notes: [
+                    ...normalNotes.slice(0, i),
+                    { ...this.state.character.notes[i], text: newText },
+                    ...normalNotes.slice(i + 1),
+                ],
+            };
+            this.props.updateCharacter(newCharacterVal, extraNotes).then(this.updateState);
+        }
+    };
+
+    createNote = () => {
+        this.setState({
+            character: {
+                ...this.state.character,
+                notes: [...this.state.character.notes, { text: "", created_at: Date.now().toString() }],
+            },
+            characterEdit: {
+                ...this.state.characterEdit,
+                notes: [...this.state.characterEdit.notes, { text: "", created_at: Date.now().toString() }],
+            },
+        });
+    };
+
+    // Remove Notes in edit
+    saveNote = (newText, created_at) => {
+        let i = this.state.character.notes.findIndex((note) => note.created_at === created_at && note.id === undefined);
+        let excludedNotes = [...this.state.character.notes.slice(0, i), ...this.state.character.notes.slice(i + 1)];
+        let extraNotes = excludedNotes.filter((note) => note.id === undefined);
+
+        let alreadyMadeNotes = this.state.character.notes.filter((note) => note.id !== undefined);
+        let newCharacterVal = {
+            ...this.state.character,
+            notes: [...alreadyMadeNotes, { text: newText }],
+        };
+
+        this.props.updateCharacter(newCharacterVal, extraNotes).then(this.updateState);
+    };
+
+    deleteNote = (noteId) => {
+        let i = this.state.character.notes.findIndex((note) => note.id === noteId);
+        let extraNotes = this.state.character.notes.filter((note) => note.id === undefined);
+        let normalNotes = this.state.character.notes.filter((note) => note.id !== undefined);
+
+        let newCharacterVal = {
+            ...this.state.character,
+            notes: [...normalNotes.slice(0, i), ...normalNotes.slice(i + 1)],
+        };
+        this.props.updateCharacter(newCharacterVal, extraNotes).then(this.updateState);
+    };
+
+    updateState = () => {
+        this.setState({
+            character: this.props.char,
+            characterEdit: this.props.char,
+        });
+    };
+
     render() {
         const { classes } = this.props;
+        this.rows = [
+            this.createData(
+                "Strength",
+                Math.floor((this.state.character.strength - 10) / 2),
+                this.state.character.strength
+            ),
+            this.createData(
+                "Dexterity",
+                Math.floor((this.state.character.dexterity - 10) / 2),
+                this.state.character.dexterity
+            ),
+            this.createData(
+                "Constitution",
+                Math.floor((this.state.character.constitution - 10) / 2),
+                this.state.character.constitution
+            ),
+            this.createData("Wisdom", Math.floor((this.state.character.wisdom - 10) / 2), this.state.character.wisdom),
+            this.createData(
+                "Intelligence",
+                Math.floor((this.state.character.intelligence - 10) / 2),
+                this.state.character.intelligence
+            ),
+            this.createData(
+                "Charisma",
+                Math.floor((this.state.character.charisma - 10) / 2),
+                this.state.character.charisma
+            ),
+        ];
 
         return (
             <Card className={classes.root}>
@@ -345,9 +468,19 @@ class CharacterCard extends Component {
                             </ListItem>
                             <ListItem>
                                 <ListItemText
-                                    primary={`Initiative: ${
-                                        Math.sign(this.rows[1].modifier) === -1 ? "-" : "+"
-                                    }${Math.abs(this.rows[1].modifier)}`}
+                                    primary={
+                                        this.state.createOrEdit
+                                            ? `Initiative: ${
+                                                  Math.sign(
+                                                      Math.floor((this.state.characterEdit.dexterity - 10) / 2)
+                                                  ) === -1
+                                                      ? "-"
+                                                      : "+"
+                                              }${Math.abs(Math.floor((this.state.characterEdit.dexterity - 10) / 2))}`
+                                            : `Initiative: ${
+                                                  Math.sign(this.rows[1].modifier) === -1 ? "-" : "+"
+                                              }${Math.abs(this.rows[1].modifier)}`
+                                    }
                                 />
                             </ListItem>
                             <ListItem>
@@ -377,9 +510,15 @@ class CharacterCard extends Component {
                         <List dense={true} className={classes.listRoot}>
                             <ListItem>
                                 <ListItemText
-                                    primary={`Proficiency Bonus: +${
-                                        Math.floor((this.state.character.level - 1) / 4) + 2
-                                    }`}
+                                    primary={
+                                        this.state.createOrEdit
+                                            ? `Proficiency Bonus: +${
+                                                  Math.floor((this.state.characterEdit.level - 1) / 4) + 2
+                                              }`
+                                            : `Proficiency Bonus: +${
+                                                  Math.floor((this.state.character.level - 1) / 4) + 2
+                                              }`
+                                    }
                                 />
                             </ListItem>
                             <ListItem>
@@ -406,7 +545,15 @@ class CharacterCard extends Component {
                                 </ListItemText>
                             </ListItem>
                             <ListItem>
-                                <ListItemText primary={`Passive Perception: ${10 + this.rows[3].modifier}`} />
+                                <ListItemText
+                                    primary={
+                                        this.state.createOrEdit
+                                            ? `Passive Perception: ${
+                                                  10 + Math.floor((this.state.characterEdit.wisdom - 10) / 2)
+                                              }`
+                                            : `Passive Perception: ${10 + this.rows[3].modifier}`
+                                    }
+                                />
                             </ListItem>
                             <ListItem>
                                 <ListItemText>
@@ -441,7 +588,21 @@ class CharacterCard extends Component {
                                         {row.stat}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {`${Math.sign(row.modifier) === -1 ? "-" : "+"}${Math.abs(row.modifier)}`}
+                                        {this.state.createOrEdit
+                                            ? `${
+                                                  Math.sign(
+                                                      Math.floor(
+                                                          (this.state.characterEdit[row.stat.toLowerCase()] - 10) / 2
+                                                      )
+                                                  ) === -1
+                                                      ? "-"
+                                                      : "+"
+                                              }${Math.abs(
+                                                  Math.floor(
+                                                      (this.state.characterEdit[row.stat.toLowerCase()] - 10) / 2
+                                                  )
+                                              )}`
+                                            : `${Math.sign(row.modifier) === -1 ? "-" : "+"}${Math.abs(row.modifier)}`}
                                     </TableCell>
                                     <TableCell align="center">
                                         {this.state.createOrEdit ? (
@@ -467,38 +628,60 @@ class CharacterCard extends Component {
                                 <TableRow>
                                     <TableCell>Item</TableCell>
                                     <TableCell align="left">Description</TableCell>
+                                    {this.state.createOrEdit ? <TableCell align="right">Action</TableCell> : null}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.createOrEdit
-                                    ? this.state.characterEdit.items.map((item, i) => (
-                                          <TableRow key={item.id}>
-                                              <TableCell component="th" scope="row">
-                                                  <TextField
-                                                      id={`item-name-basic${i}`}
-                                                      label="Name"
-                                                      value={item.name}
-                                                      onChange={(e) => this.updateItem(e, "name", i)}
-                                                  />
-                                              </TableCell>
-                                              <TableCell align="left">
-                                                  <TextField
-                                                      id={`item-desc-basic${i}`}
-                                                      label="Description"
-                                                      value={item.description}
-                                                      onChange={(e) => this.updateItem(e, "description", i)}
-                                                  />
-                                              </TableCell>
-                                          </TableRow>
-                                      ))
-                                    : this.state.character.items.map((item, i) => (
-                                          <TableRow key={i}>
-                                              <TableCell component="th" scope="row">
-                                                  {item.name}
-                                              </TableCell>
-                                              <TableCell align="left">{item.description}</TableCell>
-                                          </TableRow>
-                                      ))}
+                                {this.state.createOrEdit ? (
+                                    <Fragment>
+                                        {this.state.characterEdit.items.map((item, i) => (
+                                            <TableRow key={item.created_at}>
+                                                <TableCell component="th" scope="row">
+                                                    <TextField
+                                                        id={`item-name-basic${i}`}
+                                                        label="Name"
+                                                        value={item.name}
+                                                        onChange={(e) => this.updateItem(e, "name", i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <TextField
+                                                        id={`item-desc-basic${i}`}
+                                                        label="Description"
+                                                        value={item.description}
+                                                        onChange={(e) => this.updateItem(e, "description", i)}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    <IconButton
+                                                        color="secondary"
+                                                        onClick={() =>
+                                                            this.deleteItem(item.id, item.name, item.description)
+                                                        }
+                                                    >
+                                                        <DeleteForeverIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        <TableRow>
+                                            <TableCell align="left">
+                                                <Button variant="contained" color="primary" onClick={this.newItem}>
+                                                    Create New Item
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    </Fragment>
+                                ) : (
+                                    this.state.character.items.map((item, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell component="th" scope="row">
+                                                {item.name}
+                                            </TableCell>
+                                            <TableCell align="left">{item.description}</TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     )}
@@ -519,7 +702,7 @@ class CharacterCard extends Component {
                         </div>
                     ) : null}
                 </CardContent>
-                {this.state.isCreate ? null : (
+                {this.state.isCreate || this.state.createOrEdit ? null : (
                     <Fragment>
                         <CardActions disableSpacing>
                             <IconButton
@@ -545,7 +728,10 @@ class CharacterCard extends Component {
                             <CardContent>
                                 <CharacterNoteContainer
                                     notes={this.state.character.notes}
-                                    deleteNote={this.props.deleteNote}
+                                    deleteNote={this.deleteNote}
+                                    createNote={this.createNote}
+                                    editNote={this.editNote}
+                                    saveNote={this.saveNote}
                                 />
                             </CardContent>
                         </Collapse>

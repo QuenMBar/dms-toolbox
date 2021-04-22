@@ -28,6 +28,25 @@ class Character < ActiveRecord::Base
         self.charisma = data['charisma'].to_i
         self.background = data['background']
 
+        # For each item, check the has to see if its id still exists in items.  If not, delete it
+        items.each do |i|
+            found = false
+            data['items'].each { |l| found = true if l['id'] == i.id if l.key?('id') }
+            if found == false
+                item = Item.find(i.id)
+                item.destroy
+            end
+        end
+
+        notes.each do |i|
+            found = false
+            data['notes'].each { |l| found = true if l['id'] == i.id if l.key?('id') }
+            if found == false
+                note = Note.find(i.id)
+                note.destroy
+            end
+        end
+
         data['items'].each do |i|
             if i.key?('id')
                 local_i = items.find(i['id'])
@@ -45,7 +64,7 @@ class Character < ActiveRecord::Base
                 local_n.text = n['text']
                 local_n.save
             else
-                Note.create(text: n['text'], noteable: self)
+                Note.create(text: n['text'], title: 'character', noteable: self)
             end
         end
 

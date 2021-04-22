@@ -26,7 +26,7 @@ const useStyles = (theme) => ({
                 borderRadius: "5px",
             },
         },
-        "width": "33vw",
+        "width": "30vw",
         "height": "96vh",
         "top": "2vh",
         "position": "absolute",
@@ -117,31 +117,39 @@ class CharacterContainer extends Component {
         return newCharacter;
     };
 
-    updateCharacter = (newCharacter) => {
-        newCharacter = this.unSanitize(newCharacter);
-        fetch(`http://127.0.0.1:9393/characters/${newCharacter.id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newCharacter),
-        })
-            .then((response) => response.json())
-            .then((character) => {
-                character = this.sanitizeResponse([character])[0];
-                let currentPos = this.state.characters.findIndex((char) => char.id === character.id);
-                this.setState({
-                    characters: [
-                        ...this.state.characters.slice(0, currentPos),
-                        character,
-                        ...this.state.characters.slice(currentPos + 1),
-                    ],
-                });
+    updateCharacter = (newCharacter, extraNotes = undefined) => {
+        return new Promise((resolve) => {
+            newCharacter = this.unSanitize(newCharacter);
+            fetch(`http://127.0.0.1:9393/characters/${newCharacter.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newCharacter),
             })
-            .catch((error) => {
-                // TODO: Handle errors better
-                console.error("Error:", error);
-            });
+                .then((response) => response.json())
+                .then((character) => {
+                    character = this.sanitizeResponse([character])[0];
+                    if (extraNotes !== undefined) {
+                        character = { ...character, notes: [...character.notes, ...extraNotes] };
+                    }
+                    let currentPos = this.state.characters.findIndex((char) => char.id === character.id);
+                    this.setState(
+                        {
+                            characters: [
+                                ...this.state.characters.slice(0, currentPos),
+                                character,
+                                ...this.state.characters.slice(currentPos + 1),
+                            ],
+                        },
+                        resolve("done")
+                    );
+                })
+                .catch((error) => {
+                    // TODO: Handle errors better
+                    console.error("Error:", error);
+                });
+        });
     };
 
     deleteCharacter = (id) => {
@@ -151,9 +159,7 @@ class CharacterContainer extends Component {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log(response);
                 if (response.length === 0) {
-                    console.log("here");
                     let currentPos = this.state.characters.findIndex((char) => char.id === id);
                     this.setState({
                         characters: [
@@ -169,11 +175,6 @@ class CharacterContainer extends Component {
                 // TODO: Handle errors better
                 console.error("Error:", error);
             });
-    };
-
-    deleteNote = (noteId) => {
-        console.log(noteId);
-        // TODO: Once note controller is done
     };
 
     createCharacter = () => {
@@ -254,6 +255,7 @@ class CharacterContainer extends Component {
                                 createBool={false}
                                 updateCharacter={this.updateCharacter}
                                 deleteCharacter={this.deleteCharacter}
+                                deleteCharacterItem={this.deleteCharacterItem}
                             />
                         </GridListTile>
                     ))}

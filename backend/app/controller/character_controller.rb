@@ -21,6 +21,7 @@ class CharacterController
             rescue StandardError
                 return 405, { 'Content-Type' => 'application/json' }, [{ message: 'No Character For That Id' }.to_json]
             else
+                char = Character.find(char.id)
                 return 200, { 'Content-Type' => 'application/json' }, [char.return_everything.to_json]
             end
         end
