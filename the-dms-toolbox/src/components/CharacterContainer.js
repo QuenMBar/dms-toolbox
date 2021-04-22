@@ -32,6 +32,15 @@ const useStyles = (theme) => ({
         "position": "absolute",
         "right": "1vw",
         "background": "rgba(120, 144, 156, .3)",
+        ["@media (max-width:760px)"]: {
+            width: "98vw",
+            top: "30px",
+            // bottom: "1vh",
+            height: "fit-content",
+            position: "relative",
+            left: "1vw",
+            marginBottom: 20,
+        },
     },
     gridList: {
         width: "90%",

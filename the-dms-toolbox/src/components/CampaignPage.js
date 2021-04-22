@@ -199,7 +199,10 @@ const useStyles = (theme) => ({
             },
         },
         "width": "95%",
-        "height": "calc(99% - 170px)",
+        "height": "calc(98% - 170px)",
+        ["@media (max-width:1260px)"]: {
+            height: "calc(98% - 225px)",
+        },
         "marginTop": 12,
         "position": "relative",
         "margin": "auto",
@@ -219,6 +222,15 @@ const useStyles = (theme) => ({
         bottom: "1vh",
         position: "absolute",
         left: "1vw",
+        ["@media (max-width:760px)"]: {
+            width: "98vw",
+            top: "30px",
+            // bottom: "1vh",
+            height: "fit-content",
+            position: "relative",
+            left: "1vw",
+            marginBottom: 20,
+        },
     },
 });
 

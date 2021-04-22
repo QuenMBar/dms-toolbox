@@ -96,6 +96,14 @@ const useStyles = (theme) => ({
         marginBottom: 200,
         paddingBottom: 50,
         position: "absolute",
+        ["@media (max-width:1005px)"]: {
+            width: "98vw",
+            left: "1vw",
+            marginTop: 40,
+            marginBottom: 200,
+            paddingBottom: 50,
+            position: "relative",
+        },
     },
     add: { marginTop: 25 },
 });

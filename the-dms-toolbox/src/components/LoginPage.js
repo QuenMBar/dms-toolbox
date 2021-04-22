@@ -21,6 +21,15 @@ const useStyles = (theme) => ({
         width: 140,
     },
     title: { paddingTop: 20 },
+    loginPaper: {
+        height: "300px",
+        width: "600px",
+        margin: "auto",
+        marginTop: "20vh",
+        ["@media (max-width:760px)"]: {
+            width: "auto",
+        },
+    },
 });
 
 class LoginPage extends Component {
@@ -87,7 +96,7 @@ class LoginPage extends Component {
         return (
             <Fragment>
                 {this.props.dmId !== undefined ? <Redirect to="/dm" /> : null}
-                <Paper className="loginPaper">
+                <Paper className={classes.loginPaper}>
                     {/* <input type="text" value={this.state.username} onChange={this.updateUser}></input> */}
                     <Typography variant="h5" color="textSecondary" component="p" className={classes.title}>
                         Log In
