@@ -200,14 +200,10 @@ const useStyles = (theme) => ({
         },
         "width": "95%",
         "height": "calc(99% - 170px)",
-        // "top": 12,
-        // "bottom": 10,
         "marginTop": 12,
         "position": "relative",
         "margin": "auto",
         "background": "rgba(120, 144, 156, .3)",
-        // "backgroundColor": "black",
-        // "display": "inline-block",
     },
     gridList: {
         width: "90%",
@@ -218,13 +214,11 @@ const useStyles = (theme) => ({
         textAlign: "left",
     },
     notesDiv: {
-        // backgroundColor: "black",
-        width: "30vw",
+        width: "32vw",
         top: "80px",
         bottom: "1vh",
         position: "absolute",
         left: "1vw",
-        // background: "rgba(120, 144, 156, .3)",
     },
 });
 
