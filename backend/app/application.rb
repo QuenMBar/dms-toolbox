@@ -7,7 +7,6 @@ class Application
         path = Rack::Request.new(env).path
 
         # uninitialized constant Application::LoginController
-
         if path.match(/check_login/)
             log_req = LoginController.new(env)
             return log_req.send(verb.downcase)
@@ -17,9 +16,12 @@ class Application
         elsif path.match(/characters/)
             char_req = CharacterController.new(env)
             return char_req.send(verb.downcase)
-            # elsif path.match(/campaign/)
-            #     camp_req = CampaignController.new(env)
-            #     return camp_req.send(verb.downcase)
+        elsif path.match(/campaign/)
+            camp_req = CampaignController.new(env)
+            return camp_req.send(verb.downcase)
+        elsif path.match(/note/)
+            note_req = NoteController.new(env)
+            return note_req.send(verb.downcase)
         else
             resp.write 'Path Not Found'
             return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]

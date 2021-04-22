@@ -22,9 +22,4 @@ class DmController
         return @status, @headers, [camp_details.to_json]
     end
 
-    def delete
-        id = @req.path.split('/tasks/').last
-        Task.find(id).delete
-        return @status, @headers,  [{ message: 'Task deleted!' }.to_json]
-    end
 end
