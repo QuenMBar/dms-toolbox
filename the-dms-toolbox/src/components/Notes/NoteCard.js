@@ -21,6 +21,9 @@ const useStyles = makeStyles({
   },
 });
 
+
+
+
 export default function NoteCard(props) {
     const classes = useStyles();
     const date = props.note.created_at.split('T')[0]
@@ -44,8 +47,12 @@ export default function NoteCard(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size='small'>Edit</Button>
-          <Button size='small'>Delete</Button>
+          <Button onClick={() => props.handleEdit(props.note)} size='small'>
+            Edit
+          </Button>
+          <Button onClick={() => props.handleDele(props.note)} size='small'>
+            Delete
+          </Button>
         </CardActions>
       </Card>
     );

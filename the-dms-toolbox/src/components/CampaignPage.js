@@ -1,16 +1,11 @@
 import React, { Component } from "react";
 //styles
-import Button from "@material-ui/core/Button";
-import { createMuiTheme } from "@material-ui/core/styles";
+
 import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import CharacterCard from "./CharacterCard";
-import { Paper, ThemeProvider } from "@material-ui/core";
-import blue from "@material-ui/core/colors/blue";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
-import blueGrey from "@material-ui/core/colors/blueGrey";
+import { Paper } from "@material-ui/core";
+
 //pages
 
 //import NoteForm from "./Notes/NoteForm";
@@ -73,7 +68,11 @@ class CampaignPage extends Component {
 
             {this.state.cNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
-                <NoteCard note={note} />
+                <NoteCard
+                  handleEdit={this.handleEdit}
+                  handleDele={this.handleDele}
+                  note={note}
+                />
               </GridListTile>
             ))}
 
@@ -81,7 +80,11 @@ class CampaignPage extends Component {
 
             {this.state.qNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
-                <NoteCard note={note} />
+                <NoteCard
+                  handleEdit={this.handleEdit}
+                  handleDele={this.handleDele}
+                  note={note}
+                />
               </GridListTile>
             ))}
           </GridList>
@@ -90,20 +93,56 @@ class CampaignPage extends Component {
     );
   }
 
-  //Controls the text input
+  // created_at: "2021-04-22T04:23:10.538Z";
+  // id: 221;
+  // noteable_id: 47;
+  // noteable_type: "Campaign";
+  // text: "I am the Kwisatz Haderach. That is reason enough.";
+  // title: "quest";
+  // updated_at: "2021-04-22T04:23:10.538Z";
+  //*patches the new data
+  handleEdit = (note) => {
+    console.log(note);
+    this.setState({
+      text: note.text,
+      radio: note.title,
+      helperText: "Edit the Note",
+    })
+  };
+
+  //*deletes from the database and filters it out of state
+  handleDele = (note) => {
+    fetch(noteURL + note.id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((r) => r.json())
+      .then(console.log)
+      .catch((e) => console.error("e:", e));
+
+    this.setState({
+      qNotes: this.state.qNotes.filter((n) => n.id !== note.id),
+      cNotes: this.state.cNotes.filter((n) => n.id !== note.id),
+    });
+  };
+
+  //*Controls the text input
   handleTextChange = (event) => {
     this.setState({
       text: event.target.value,
     });
   };
-  //Controls the radio button
+  
+  //*Controls the radio button
   handleRadioChange = (event) => {
     this.setState({
       radio: event.target.value,
     });
   };
 
-  //Will optimistically render and update our server
+  //*Will optimistically render and update our server
   handleSubmit = (event) => {
     event.preventDefault();
     let newNote = this.makeNote();
@@ -133,7 +172,7 @@ class CampaignPage extends Component {
       });
     }
   };
-  //Post to our server and then resets the form
+  //*Post to our server and then resets the form
   updateNote = (newNote, event) => {
     let configObj = {
       method: "POST",
@@ -151,10 +190,11 @@ class CampaignPage extends Component {
       })
       .catch((e) => console.error("e:", e));
   };
-  //creates a note obj that we can use for any of the char/camp/quest notes
+  //*creates a note obj that we can use for any of the char/camp/quest notes
   makeNote = () => {
     let timeStamp = new Date().toDateString();
     let newNote = {
+      id: 0,
       text: this.state.text,
       title: this.state.radio,
       campId: this.props.match.params.id,

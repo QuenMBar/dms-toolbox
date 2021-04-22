@@ -7,7 +7,6 @@ class Application
         path = Rack::Request.new(env).path
 
         # uninitialized constant Application::LoginController
-
         if path.match(/check_login/)
             log_req = LoginController.new(env)
             return log_req.send(verb.downcase)

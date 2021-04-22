@@ -24,10 +24,15 @@ class NoteController
       return @status, @headers, [note.to_json]
     end
 
-    def patch
+    def get
+        n = Note.find(@id)
+        note = {text: n.text, title: n.title, noteable: n.noteable.id}
+        return @status, @headers,  [note.to_json]
     end 
 
     def delete
-        return @status, @headers,  [{ message: 'Task deleted!' }.to_json]
+        Note.find(@id).delete
+        return @status, @headers,  [{ message: 'Note deleted!' }.to_json]
     end
+
 end
