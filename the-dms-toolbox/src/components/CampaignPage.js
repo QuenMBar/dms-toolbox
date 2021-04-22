@@ -69,7 +69,6 @@ class CampaignPage extends Component {
             {this.state.cNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
                 <NoteCard
-                  handleEdit={this.handleEdit}
                   handleDele={this.handleDele}
                   note={note}
                 />
@@ -81,7 +80,6 @@ class CampaignPage extends Component {
             {this.state.qNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
                 <NoteCard
-                  handleEdit={this.handleEdit}
                   handleDele={this.handleDele}
                   note={note}
                 />
@@ -93,22 +91,6 @@ class CampaignPage extends Component {
     );
   }
 
-  // created_at: "2021-04-22T04:23:10.538Z";
-  // id: 221;
-  // noteable_id: 47;
-  // noteable_type: "Campaign";
-  // text: "I am the Kwisatz Haderach. That is reason enough.";
-  // title: "quest";
-  // updated_at: "2021-04-22T04:23:10.538Z";
-  //*patches the new data
-  handleEdit = (note) => {
-    console.log(note);
-    this.setState({
-      text: note.text,
-      radio: note.title,
-      helperText: "Edit the Note",
-    })
-  };
 
   //*deletes from the database and filters it out of state
   handleDele = (note) => {
@@ -134,7 +116,7 @@ class CampaignPage extends Component {
       text: event.target.value,
     });
   };
-  
+
   //*Controls the radio button
   handleRadioChange = (event) => {
     this.setState({

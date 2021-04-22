@@ -16,11 +16,17 @@ class NoteController
         @req.path
     end
 
+    def patch 
+        data = JSON.parse @req.body.read
+        n = Note.find(@id)
+        n.update(text: data["text"])
+        return @status, @headers,  [{ message: 'Note updated!' }.to_json]
+    end
+
     def post
       data = JSON.parse @req.body.read
       camp = Campaign.find(data["campId"])
       note = Note.create(text: data["text"], title:data["title"], noteable: camp )
-
       return @status, @headers, [note.to_json]
     end
 
@@ -34,5 +40,8 @@ class NoteController
         Note.find(@id).delete
         return @status, @headers,  [{ message: 'Note deleted!' }.to_json]
     end
+
+
+
 
 end
