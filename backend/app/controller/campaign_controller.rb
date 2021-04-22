@@ -16,10 +16,20 @@ class CampaignController
         @req.path
     end
 
+    def empty_check el
+        el.length == 0? "No Notes" : el
+    end 
+
     def get
         camp = Campaign.find(@id)
-        return @status, @headers, [camp_details.to_json]
+        q_notes, c_notes = camp.quest_notes, camp.campaign_notes
+        empty_check q_notes
+        empty_check c_notes
+        res = {qNotes: q_notes, cNotes: c_notes}
+        return @status, @headers, [res.to_json]
     end
+
+  
 
     def delete
         id = @req.path.split('/tasks/').last
