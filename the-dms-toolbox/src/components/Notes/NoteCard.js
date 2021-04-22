@@ -86,32 +86,3 @@ export default function NoteCard(props) {
     </Card>
   );
 }
-
-// export default function NoteCard(props) {
-//     const classes = useStyles();
-//  
-//     return (
-//       <Card className={classes.root}>
-//         <CardContent>
-//           <Typography
-//             className={classes.title}
-//             color='textSecondary'
-//             gutterBottom
-//           >
-//             Note
-//           </Typography>
-//           <Typography className={classes.pos} color='textSecondary'>
-//             {props.note.title}
-//           </Typography>
-//           <Typography variant='body2' component='p'>
-//             {props.note.text}
-//             <br />
-//             {date}
-//           </Typography>
-//         </CardContent>
-//         <CardActions>
-
-//         </CardActions>
-//       </Card>
-//     );
-// }
