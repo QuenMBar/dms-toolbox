@@ -40,13 +40,16 @@ class CampaignPage extends Component {
   }
 
   getNotes = () => {
-      fetch(URL + this.state.campId)
-        .then((r) => r.json())
-        .then((notes) =>   this.setState({
-      qNotes: notes.qNotes,
-      cNotes: notes.cNotes,
-        }))
-        .catch((e) => console.error("e:", e));
+    fetch(URL + this.state.campId)
+      .then((r) => r.json())
+      .then((notes) =>
+        this.setState({
+          helperText: "Select a field",
+          qNotes: notes.qNotes,
+          cNotes: notes.cNotes,
+        })
+      )
+      .catch((e) => console.error("e:", e));
   };
 
   render() {
@@ -109,6 +112,7 @@ class CampaignPage extends Component {
       let newNoteList = [...this.state.qNotes, newNote];
       this.setState(
         {
+          helperText: "Fetch the Scribe! I have a Quest!",
           qNotes: newNoteList,
         },
         this.updateNote(newNote, event)
@@ -117,19 +121,19 @@ class CampaignPage extends Component {
       let newNoteList = [...this.state.cNotes, newNote];
       this.setState(
         {
+          helperText: "Interesting choice",
           cNotes: newNoteList,
         },
         this.updateNote(newNote, event)
       );
     } else {
       let newNoteList = [...this.state.charNotes, newNote];
-      this.setState(
-        {
-          charNotes: newNoteList,
-        });
+      this.setState({
+        charNotes: newNoteList,
+      });
     }
   };
-
+  //Post to our server and then resets the form
   updateNote = (newNote, event) => {
     let configObj = {
       method: "POST",
@@ -147,7 +151,7 @@ class CampaignPage extends Component {
       })
       .catch((e) => console.error("e:", e));
   };
-
+  //creates a note obj that we can use for any of the char/camp/quest notes
   makeNote = () => {
     let timeStamp = new Date().toDateString();
     let newNote = {
@@ -177,14 +181,14 @@ const useStyles = (theme) => ({
     },
     width: "33vw",
     height: "96vh",
-    top: "2vh",
+    top: "12vh",
     position: "absolute",
     background: "rgba(120, 144, 156, .3)",
   },
   gridList: {
     width: "30vw",
-    height: "90vh",
-    top: "3vh",
+    height: "85vh",
+    top: "8vh",
     position: "absolute",
     right: "1.5vw",
     textAlign: "left",
