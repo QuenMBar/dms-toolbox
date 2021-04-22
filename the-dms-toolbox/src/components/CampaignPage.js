@@ -9,7 +9,6 @@ import { Paper } from "@material-ui/core";
 
 //pages
 
-//import NoteForm from "./Notes/NoteForm";
 import NoteCard from "./Notes/NoteCard";
 import NoteForm from "./Notes/NoteForm";
 

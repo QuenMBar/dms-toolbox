@@ -42,6 +42,4 @@ class NoteController
     end
 
 
-
-
 end
