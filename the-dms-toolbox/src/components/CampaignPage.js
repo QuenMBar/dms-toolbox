@@ -24,7 +24,7 @@ class CampaignPage extends Component {
             charNotes: [],
             qNotes: [],
             cNotes: [],
-            radio: "",
+            radio: "campaign",
             text: "",
             helperText: "Select a field",
         };
@@ -48,39 +48,42 @@ class CampaignPage extends Component {
     };
 
     render() {
-        console.log(this.state.campId);
         const { classes } = this.props;
         return (
             <Fragment>
-                <div>
+                {/* <div>
                     <h1>Now showing campaign {this.state.name} </h1>
+                </div> */}
+                <div className={classes.notesDiv}>
+                    <NoteForm
+                        radio={this.state.radio}
+                        helperText={this.state.helperText}
+                        text={this.state.text}
+                        handleSubmit={this.handleSubmit}
+                        handleTextChange={this.handleTextChange}
+                        handleRadioChange={this.handleRadioChange}
+                    />
+                    <Paper className={classes.root}>
+                        <GridList cellHeight="auto" className={classes.gridList} cols={1}>
+                            <h2>Campaign Notes</h2>
+
+                            {this.state.cNotes.map((note) => (
+                                <GridListTile key={note.id} cols={1}>
+                                    <NoteCard handleDele={this.handleDele} note={note} />
+                                </GridListTile>
+                            ))}
+
+                            <h2>Quest Notes</h2>
+
+                            {this.state.qNotes.map((note) => (
+                                <GridListTile key={note.id} cols={1}>
+                                    <NoteCard handleDele={this.handleDele} note={note} />
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </Paper>
                 </div>
-                <NoteForm
-                    radio={this.state.radio}
-                    helperText={this.state.helperText}
-                    handleSubmit={this.handleSubmit}
-                    handleTextChange={this.handleTextChange}
-                    handleRadioChange={this.handleRadioChange}
-                />
-                <Paper className={classes.root}>
-                    <GridList cellHeight="auto" className={classes.gridList} cols={1}>
-                        <h2>Campaign Notes</h2>
 
-                        {this.state.cNotes.map((note) => (
-                            <GridListTile key={note.id} cols={1}>
-                                <NoteCard handleDele={this.handleDele} note={note} />
-                            </GridListTile>
-                        ))}
-
-                        <h2>Quest Notes</h2>
-
-                        {this.state.qNotes.map((note) => (
-                            <GridListTile key={note.id} cols={1}>
-                                <NoteCard handleDele={this.handleDele} note={note} />
-                            </GridListTile>
-                        ))}
-                    </GridList>
-                </Paper>
                 <CharacterContainer campId={this.state.campId} />
             </Fragment>
         );
@@ -104,12 +107,12 @@ class CampaignPage extends Component {
         });
     };
 
-    //*Controls the text input
-    handleTextChange = (event) => {
-        this.setState({
-            text: event.target.value,
-        });
-    };
+    // //*Controls the text input
+    // handleTextChange = (event) => {
+    //     this.setState({
+    //         text: event.target.value,
+    //     });
+    // };
 
     //*Controls the radio button
     handleRadioChange = (event) => {
@@ -119,9 +122,9 @@ class CampaignPage extends Component {
     };
 
     //*Will optimistically render and update our server
-    handleSubmit = (event) => {
+    handleSubmit = (event, text) => {
         event.preventDefault();
-        let newNote = this.makeNote();
+        let newNote = this.makeNote(text);
         let value = this.state.radio;
         if (value == "quest") {
             let newNoteList = [...this.state.qNotes, newNote];
@@ -167,11 +170,11 @@ class CampaignPage extends Component {
             .catch((e) => console.error("e:", e));
     };
     //*creates a note obj that we can use for any of the char/camp/quest notes
-    makeNote = () => {
+    makeNote = (text) => {
         let timeStamp = new Date().toDateString();
         let newNote = {
             id: 0,
-            text: this.state.text,
+            text: text,
             title: this.state.radio,
             campId: this.props.match.params.id,
             created_at: timeStamp,
@@ -195,19 +198,33 @@ const useStyles = (theme) => ({
                 borderRadius: "5px",
             },
         },
-        "width": "33vw",
-        "height": "96vh",
-        "top": "12vh",
-        "position": "absolute",
+        "width": "95%",
+        "height": "calc(99% - 170px)",
+        // "top": 12,
+        // "bottom": 10,
+        "marginTop": 12,
+        "position": "relative",
+        "margin": "auto",
         "background": "rgba(120, 144, 156, .3)",
+        // "backgroundColor": "black",
+        // "display": "inline-block",
     },
     gridList: {
-        width: "30vw",
-        height: "85vh",
-        top: "8vh",
-        position: "absolute",
-        right: "1.5vw",
+        width: "90%",
+        height: "96%",
+        top: "2%",
+        position: "relative",
+        left: "5.5%",
         textAlign: "left",
+    },
+    notesDiv: {
+        // backgroundColor: "black",
+        width: "30vw",
+        top: "80px",
+        bottom: "1vh",
+        position: "absolute",
+        left: "1vw",
+        // background: "rgba(120, 144, 156, .3)",
     },
 });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import ListItem from "@material-ui/core/ListItem";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,60 +14,48 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-  },
+    root: {
+        width: "100%",
+        backgroundColor: theme.palette.background.paper,
+    },
 }));
 
 const listItemTextField = (name) => {
-  return (
-    <TextField
-      id='standard-basic'
-      defaultValue={name}
-      label='Standard'
-    />
-  );
-}
-
+    return <TextField id="standard-basic" defaultValue={name} label="Standard" />;
+};
 
 export default function CampList(props) {
-  const classes = useStyles();
-  const history = useHistory();
+    const classes = useStyles();
+    const history = useHistory();
 
     return (
         <div>
             <h1> Your Campaigns!</h1>
             {props.camps.map((camp) => {
                 return (
-                  <div className={classes.root} key={camp.id}>
-                    <Divider />
-                    <ListItem>
-                      <ListItemText primary={listItemTextField(camp.name)} />
-                      <ListItemSecondaryAction>
-                        <IconButton edge='end' aria-label='comments'>
-                          <SaveIcon onClick={() => props.handleEdit(camp.id)} />
-
-                        </IconButton>
-                        <IconButton edge='end' aria-label='comments'>
-                          <OpenInBrowserIcon
-                            onClick={() => {
-                              history.push(`/dm/${camp.name}/${camp.id}`);
-                            }}
-                          />
-                        </IconButton>
-                        <IconButton edge='end' aria-label='comments'>
-                          <DeleteIcon
-                            onClick={() => props.handleDele(camp.id)}
-                          />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </div>
+                    <div className={classes.root} key={camp.id}>
+                        <Divider />
+                        <ListItem>
+                            <ListItemText primary={listItemTextField(camp.name)} />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="comments">
+                                    <SaveIcon onClick={() => props.handleEdit(camp.id)} />
+                                </IconButton>
+                                <IconButton edge="end" aria-label="comments">
+                                    <OpenInBrowserIcon
+                                        onClick={() => {
+                                            history.push(`/dm/${camp.name}/${camp.id}`);
+                                        }}
+                                    />
+                                </IconButton>
+                                <IconButton edge="end" aria-label="comments">
+                                    <DeleteIcon onClick={() => props.handleDele(camp.id)} />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </div>
                 );
             })}
         </div>
-    )
+    );
 }
-
-
