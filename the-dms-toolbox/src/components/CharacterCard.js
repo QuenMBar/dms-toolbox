@@ -77,6 +77,7 @@ class CharacterCard extends Component {
         createOrEdit: this.props.createBool,
         character: this.props.char,
         characterEdit: this.props.char,
+        isCreate: this.props.isCreate,
     };
 
     dndClasses = [
@@ -190,14 +191,18 @@ class CharacterCard extends Component {
     };
 
     handleCancel = () => {
-        this.setState({
-            characterEdit: this.state.character,
-            createOrEdit: false,
-        });
+        if (!this.state.isCreate) {
+            this.setState({
+                characterEdit: this.state.character,
+                createOrEdit: false,
+            });
+        } else {
+            this.props.cancelCreate(this.state.characterEdit.tempId);
+        }
     };
 
     handleSub = () => {
-        if (this.state.character.id !== undefined) {
+        if (!this.state.isCreate) {
             this.props.updateCharacter(this.state.characterEdit);
             this.setState({
                 // TODO: Figure Out Why It Doesnt Update
@@ -205,7 +210,7 @@ class CharacterCard extends Component {
                 createOrEdit: false,
             });
         } else {
-            // Create the thing
+            this.props.createCharacter(this.state.characterEdit);
         }
     };
 
@@ -456,45 +461,48 @@ class CharacterCard extends Component {
                         </TableBody>
                     </Table>
                     <Divider />
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Item</TableCell>
-                                <TableCell align="left">Description</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.createOrEdit
-                                ? this.state.characterEdit.items.map((item, i) => (
-                                      <TableRow key={item.id}>
-                                          <TableCell component="th" scope="row">
-                                              <TextField
-                                                  id={`item-name-basic${i}`}
-                                                  label="Name"
-                                                  value={item.name}
-                                                  onChange={(e) => this.updateItem(e, "name", i)}
-                                              />
-                                          </TableCell>
-                                          <TableCell align="left">
-                                              <TextField
-                                                  id={`item-desc-basic${i}`}
-                                                  label="Description"
-                                                  value={item.description}
-                                                  onChange={(e) => this.updateItem(e, "description", i)}
-                                              />
-                                          </TableCell>
-                                      </TableRow>
-                                  ))
-                                : this.state.character.items.map((item, i) => (
-                                      <TableRow key={i}>
-                                          <TableCell component="th" scope="row">
-                                              {item.name}
-                                          </TableCell>
-                                          <TableCell align="left">{item.description}</TableCell>
-                                      </TableRow>
-                                  ))}
-                        </TableBody>
-                    </Table>
+                    {this.state.isCreate ? null : (
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Item</TableCell>
+                                    <TableCell align="left">Description</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.createOrEdit
+                                    ? this.state.characterEdit.items.map((item, i) => (
+                                          <TableRow key={item.id}>
+                                              <TableCell component="th" scope="row">
+                                                  <TextField
+                                                      id={`item-name-basic${i}`}
+                                                      label="Name"
+                                                      value={item.name}
+                                                      onChange={(e) => this.updateItem(e, "name", i)}
+                                                  />
+                                              </TableCell>
+                                              <TableCell align="left">
+                                                  <TextField
+                                                      id={`item-desc-basic${i}`}
+                                                      label="Description"
+                                                      value={item.description}
+                                                      onChange={(e) => this.updateItem(e, "description", i)}
+                                                  />
+                                              </TableCell>
+                                          </TableRow>
+                                      ))
+                                    : this.state.character.items.map((item, i) => (
+                                          <TableRow key={i}>
+                                              <TableCell component="th" scope="row">
+                                                  {item.name}
+                                              </TableCell>
+                                              <TableCell align="left">{item.description}</TableCell>
+                                          </TableRow>
+                                      ))}
+                            </TableBody>
+                        </Table>
+                    )}
+
                     {this.state.createOrEdit ? (
                         <div className={classes.actionButtons}>
                             <Button onClick={this.handleCancel} variant="contained" color="secondary">
@@ -511,29 +519,45 @@ class CharacterCard extends Component {
                         </div>
                     ) : null}
                 </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton
-                        className={clsx(classes.expand, {
-                            [classes.expandOpen]: this.state.expanded,
-                        })}
-                        onClick={this.handleExpandClick}
-                        aria-expanded={this.state.expanded}
-                        aria-label="show more"
-                    >
-                        <Typography variant="body2" color="textSecondary" component="p" className={classes.expandLabel}>
-                            Notes
-                        </Typography>
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <CharacterNoteContainer notes={this.state.character.notes} deleteNote={this.props.deleteNote} />
-                    </CardContent>
-                </Collapse>
+                {this.state.isCreate ? null : (
+                    <Fragment>
+                        <CardActions disableSpacing>
+                            <IconButton
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: this.state.expanded,
+                                })}
+                                onClick={this.handleExpandClick}
+                                aria-expanded={this.state.expanded}
+                                aria-label="show more"
+                            >
+                                <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="p"
+                                    className={classes.expandLabel}
+                                >
+                                    Notes
+                                </Typography>
+                                <ExpandMoreIcon />
+                            </IconButton>
+                        </CardActions>
+                        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                            <CardContent>
+                                <CharacterNoteContainer
+                                    notes={this.state.character.notes}
+                                    deleteNote={this.props.deleteNote}
+                                />
+                            </CardContent>
+                        </Collapse>
+                    </Fragment>
+                )}
             </Card>
         );
     }
 }
+
+CharacterCard.defaultProps = {
+    isCreate: false,
+};
 
 export default withStyles(useStyles)(CharacterCard);

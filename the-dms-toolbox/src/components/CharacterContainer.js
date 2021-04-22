@@ -4,11 +4,12 @@ import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import CharacterCard from "./CharacterCard";
-import { Paper, ThemeProvider } from "@material-ui/core";
+import { IconButton, Paper, ThemeProvider } from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import blueGrey from "@material-ui/core/colors/blueGrey";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const useStyles = (theme) => ({
     root: {
@@ -40,11 +41,15 @@ const useStyles = (theme) => ({
         left: "5%",
         textAlign: "left",
     },
+    icon: {
+        fontSize: 60,
+    },
 });
 
 class CharacterContainer extends Component {
     state = {
         characters: [],
+        newCharacters: [],
     };
 
     // TODO: Replace with camp id
@@ -140,6 +145,7 @@ class CharacterContainer extends Component {
     };
 
     deleteCharacter = (id) => {
+        // TODO: Confirm
         fetch(`http://127.0.0.1:9393/characters/${id}/`, {
             method: "DELETE",
         })
@@ -170,6 +176,71 @@ class CharacterContainer extends Component {
         // TODO: Once note controller is done
     };
 
+    createCharacter = () => {
+        let newTemp = {
+            tempId: Date.now(),
+            name: "",
+            klass: "Artificer",
+            language: "Abyssal",
+            race: "",
+            alignment: "Chaotic Evil",
+            armor_class: 9,
+            level: 1,
+            strength: 6,
+            dexterity: 6,
+            constitution: 6,
+            intelligence: 6,
+            wisdom: 6,
+            charisma: 6,
+            background: "",
+            campaign_id: this.props.campId,
+            items: [],
+            notes: [],
+        };
+        this.setState({
+            newCharacters: [...this.state.newCharacters, newTemp],
+        });
+    };
+
+    postCharacter = (newCharacter) => {
+        // TODO: Validate Values
+        newCharacter = this.unSanitize(newCharacter);
+        fetch(`http://127.0.0.1:9393/characters`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCharacter),
+        })
+            .then((response) => response.json())
+            .then((character) => {
+                character = this.sanitizeResponse([character])[0];
+                let currentPos = this.state.newCharacters.findIndex((char) => char.tempId === newCharacter.tempId);
+                this.setState({
+                    characters: [...this.state.characters, character],
+                    newCharacters: [
+                        ...this.state.newCharacters.slice(0, currentPos),
+                        ...this.state.newCharacters.slice(currentPos + 1),
+                    ],
+                });
+            })
+            .catch((error) => {
+                // TODO: Handle errors better
+                console.error("Error:", error);
+            });
+    };
+
+    cancelCreate = (tempId) => {
+        let currentPos = this.state.newCharacters.findIndex((char) => char.tempId === tempId);
+
+        this.setState({
+            newCharacters: [
+                ...this.state.newCharacters.slice(0, currentPos),
+                ...this.state.newCharacters.slice(currentPos + 1),
+            ],
+        });
+    };
+
     render() {
         const { classes } = this.props;
         return (
@@ -186,6 +257,25 @@ class CharacterContainer extends Component {
                             />
                         </GridListTile>
                     ))}
+                    {this.state.newCharacters.map((char) => (
+                        <GridListTile key={char.tempId} cols={1}>
+                            <CharacterCard
+                                char={char}
+                                deleteNote={this.deleteNote}
+                                createBool={true}
+                                isCreate={true}
+                                updateCharacter={this.updateCharacter}
+                                deleteCharacter={this.deleteCharacter}
+                                cancelCreate={this.cancelCreate}
+                                createCharacter={this.postCharacter}
+                            />
+                        </GridListTile>
+                    ))}
+                    <GridListTile cols={1}>
+                        <IconButton onClick={this.createCharacter} aria-label="create-character">
+                            <AddCircleIcon className={classes.icon} />
+                        </IconButton>
+                    </GridListTile>
                 </GridList>
             </Paper>
         );
