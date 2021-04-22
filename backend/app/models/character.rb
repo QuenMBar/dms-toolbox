@@ -1,8 +1,8 @@
 class Character < ActiveRecord::Base
     belongs_to :campaign
     has_one :dm, through: :campaign
-    has_many :notes, as: :noteable
-    has_many :items, as: :itemable
+    has_many :notes, as: :noteable, dependent: :delete_all
+    has_many :items, as: :itemable, dependent: :delete_all
 
     def return_everything
         nc = as_json

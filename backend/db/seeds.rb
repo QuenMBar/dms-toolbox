@@ -27,10 +27,10 @@ Dm.create(username: 'a', password: 'a')
 3.times { Dm.create(username: Faker::Name.name, password: Faker::Lorem.word) }
 
 puts 'Initiating Campaigns 🗺'
-10.times { Campaign.create(name: Faker::Games::DnD.city, dm: Dm.all.sample) }
+15.times { Campaign.create(name: Faker::Games::DnD.city, dm: Dm.all.sample) }
 
 puts 'Seeding Characters 🧝🏻‍♂️🧝🏽‍♀️🧝🏽‍🧝🏾‍♂️'
-25.times do
+80.times do
     Character.create(
         name: Faker::Books::Dune.character,
         klass: Faker::Games::DnD.klass,
@@ -51,12 +51,12 @@ puts 'Seeding Characters 🧝🏻‍♂️🧝🏽‍♀️🧝🏽‍🧝🏾�
 end
 
 puts 'Writing Notes ✍🏻'
-40.times do
+180.times do
     Note.create(text: Faker::Books::Dune.quote, title: 'character', noteable: Character.all.sample)
     Note.create(text: Faker::Books::Dune.saying, title: 'campaign', noteable: Campaign.all.sample)
     Note.create(text: Faker::Books::Dune.saying, title: 'quest', noteable: Campaign.all.sample)
 end
 puts 'Forging Items 🔨'
-70.times { Item.create(name: item_variety, description: Faker::Lorem.sentence, itemable: Character.all.sample) }
+400.times { Item.create(name: item_variety, description: Faker::Lorem.sentence, itemable: Character.all.sample) }
 
 puts '🌱 Done Seeding 🌱'

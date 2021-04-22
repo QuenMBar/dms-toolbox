@@ -33,7 +33,16 @@ class CharacterController
 
     def delete
         path = @req.env['PATH_INFO'].split('/')
-        puts path[2] if !path[2].nil?
+        if !path[2].nil?
+            begin
+                char = Character.find(path[2].to_i)
+                char.destroy
+            rescue StandardError
+                return 405, { 'Content-Type' => 'application/json' }, [{ message: 'No Character For That Id' }.to_json]
+            else
+                return 200, { 'Content-Type' => 'application/json' }, [[].to_json]
+            end
+        end
     end
 
     def get

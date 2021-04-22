@@ -200,12 +200,18 @@ class CharacterCard extends Component {
         if (this.state.character.id !== undefined) {
             this.props.updateCharacter(this.state.characterEdit);
             this.setState({
+                // TODO: Figure Out Why It Doesnt Update
                 character: this.state.characterEdit,
                 createOrEdit: false,
             });
         } else {
             // Create the thing
         }
+    };
+
+    handleDelete = () => {
+        this.handleClose();
+        this.props.deleteCharacter(this.state.character.id);
     };
 
     render() {
@@ -221,24 +227,27 @@ class CharacterCard extends Component {
                     //     </Avatar>
                     // }
                     action={
-                        <div>
-                            <IconButton onClick={this.handleClick} aria-label="settings">
-                                <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                                id="simple-menu"
-                                anchorEl={this.state.anchorEl}
-                                keepMounted
-                                open={Boolean(this.state.anchorEl)}
-                                onClose={this.handleClose}
-                            >
-                                <MenuItem onClick={this.handleEdit}>Edit</MenuItem>
-                                <MenuItem className={classes.menuError} onClick={this.handleClose}>
-                                    <DeleteForeverIcon />
-                                    Delete
-                                </MenuItem>
-                            </Menu>
-                        </div>
+                        this.state.createOrEdit ? null : (
+                            <div>
+                                <IconButton onClick={this.handleClick} aria-label="settings">
+                                    <MoreVertIcon />
+                                </IconButton>
+
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={this.state.anchorEl}
+                                    keepMounted
+                                    open={Boolean(this.state.anchorEl)}
+                                    onClose={this.handleClose}
+                                >
+                                    <MenuItem onClick={this.handleEdit}>Edit</MenuItem>
+                                    <MenuItem onClick={this.handleDelete} className={classes.menuError}>
+                                        <DeleteForeverIcon />
+                                        Delete
+                                    </MenuItem>
+                                </Menu>
+                            </div>
+                        )
                     }
                     title={
                         this.state.createOrEdit ? (
@@ -457,7 +466,7 @@ class CharacterCard extends Component {
                         <TableBody>
                             {this.state.createOrEdit
                                 ? this.state.characterEdit.items.map((item, i) => (
-                                      <TableRow key={i}>
+                                      <TableRow key={item.id}>
                                           <TableCell component="th" scope="row">
                                               <TextField
                                                   id={`item-name-basic${i}`}

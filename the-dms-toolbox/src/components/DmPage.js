@@ -13,8 +13,7 @@ export default class DmPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // id: props.dmId,
-            id: 14,
+            id: props.dmId,
             camps: [],
         };
     }

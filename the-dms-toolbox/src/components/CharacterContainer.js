@@ -122,10 +122,45 @@ class CharacterContainer extends Component {
             body: JSON.stringify(newCharacter),
         })
             .then((response) => response.json())
-            .then((data) => {
-                console.log("Success:", data);
+            .then((character) => {
+                character = this.sanitizeResponse([character])[0];
+                let currentPos = this.state.characters.findIndex((char) => char.id === character.id);
+                this.setState({
+                    characters: [
+                        ...this.state.characters.slice(0, currentPos),
+                        character,
+                        ...this.state.characters.slice(currentPos + 1),
+                    ],
+                });
             })
             .catch((error) => {
+                // TODO: Handle errors better
+                console.error("Error:", error);
+            });
+    };
+
+    deleteCharacter = (id) => {
+        fetch(`http://127.0.0.1:9393/characters/${id}/`, {
+            method: "DELETE",
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                if (response.length === 0) {
+                    console.log("here");
+                    let currentPos = this.state.characters.findIndex((char) => char.id === id);
+                    this.setState({
+                        characters: [
+                            ...this.state.characters.slice(0, currentPos),
+                            ...this.state.characters.slice(currentPos + 1),
+                        ],
+                    });
+                } else {
+                    // TODO: Throw Error?
+                }
+            })
+            .catch((error) => {
+                // TODO: Handle errors better
                 console.error("Error:", error);
             });
     };
@@ -135,22 +170,19 @@ class CharacterContainer extends Component {
         // TODO: Once note controller is done
     };
 
-    createNote = (text) => {};
-
-    updateNote = (noteId, newText) => {};
-
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.root}>
                 <GridList cellHeight="auto" className={classes.gridList} cols={1}>
                     {this.state.characters.map((char, i) => (
-                        <GridListTile key={i} cols={1}>
+                        <GridListTile key={char.id} cols={1}>
                             <CharacterCard
                                 char={char}
                                 deleteNote={this.deleteNote}
                                 createBool={false}
                                 updateCharacter={this.updateCharacter}
+                                deleteCharacter={this.deleteCharacter}
                             />
                         </GridListTile>
                     ))}
