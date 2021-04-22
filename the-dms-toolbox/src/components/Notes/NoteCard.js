@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 export default function NoteCard(props) {
     const classes = useStyles();
-    const date = props.note.created_at.split('T1')[0]
+    const date = props.note.created_at.split('T')[0]
     return (
       <Card className={classes.root}>
         <CardContent>

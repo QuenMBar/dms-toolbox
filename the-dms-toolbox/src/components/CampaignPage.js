@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 //styles
 import Button from "@material-ui/core/Button";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -18,6 +18,7 @@ import NoteCard from "./Notes/NoteCard";
 import NoteForm from "./Notes/NoteForm";
 
 const URL = "http://localhost:9393/campaign/";
+const noteURL = "http://localhost:9393/note/";
 
 class CampaignPage extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class CampaignPage extends Component {
     this.state = {
       campId: this.props.match.params.id,
       name: this.props.match.params.name,
+      charNotes: [],
       qNotes: [],
       cNotes: [],
       radio: "",
@@ -34,17 +36,17 @@ class CampaignPage extends Component {
   }
 
   componentDidMount() {
-    fetch(URL + this.state.campId)
-      .then((r) => r.json())
-      .then((notes) => this.updateNotes(notes))
-      .catch((e) => console.error("e:", e));
+    this.getNotes();
   }
 
-  updateNotes = (notes) => {
-    this.setState({
+  getNotes = () => {
+      fetch(URL + this.state.campId)
+        .then((r) => r.json())
+        .then((notes) =>   this.setState({
       qNotes: notes.qNotes,
       cNotes: notes.cNotes,
-    });
+        }))
+        .catch((e) => console.error("e:", e));
   };
 
   render() {
@@ -67,16 +69,16 @@ class CampaignPage extends Component {
             <h2>Campaign Notes</h2>
 
             {this.state.cNotes.map((note) => (
-              <GridListTile cols={1}>
-                <NoteCard key={note.id} note={note} />
+              <GridListTile key={note.id} cols={1}>
+                <NoteCard note={note} />
               </GridListTile>
             ))}
 
             <h2>Quest Notes</h2>
 
             {this.state.qNotes.map((note) => (
-              <GridListTile cols={1}>
-                <NoteCard key={note.id} note={note} />
+              <GridListTile key={note.id} cols={1}>
+                <NoteCard note={note} />
               </GridListTile>
             ))}
           </GridList>
@@ -88,27 +90,61 @@ class CampaignPage extends Component {
   //Controls the text input
   handleTextChange = (event) => {
     this.setState({
-      text: event.target.value
-    })
-  }
+      text: event.target.value,
+    });
+  };
   //Controls the radio button
   handleRadioChange = (event) => {
     this.setState({
-      radio: event.target.value
+      radio: event.target.value,
     });
   };
 
   //Will optimistically render and update our server
   handleSubmit = (event) => {
     event.preventDefault();
-    let newNote = makeNote();
-    let newNoteList =
-      let helper = {
-        'character': 
-      }
-    this.setState({
+    let newNote = this.makeNote();
+    let value = this.state.radio;
+    if (value == "quest") {
+      let newNoteList = [...this.state.qNotes, newNote];
+      this.setState(
+        {
+          qNotes: newNoteList,
+        },
+        this.updateNote(newNote, event)
+      );
+    } else if (value == "campaign") {
+      let newNoteList = [...this.state.cNotes, newNote];
+      this.setState(
+        {
+          cNotes: newNoteList,
+        },
+        this.updateNote(newNote, event)
+      );
+    } else {
+      let newNoteList = [...this.state.charNotes, newNote];
+      this.setState(
+        {
+          charNotes: newNoteList,
+        },
+        this.updateNote(newNote, event)
+      );
+    }
+  };
 
-    })
+  updateNote = (newNote, event) => {
+    let configObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newNote),
+    };
+
+    fetch(noteURL, configObj)
+      .then((r) => r.json)
+      .then(this.getNotes)
+      .catch((e) => console.error("e:", e));
   };
 
   makeNote = () => {
@@ -118,12 +154,10 @@ class CampaignPage extends Component {
       title: this.state.radio,
       campId: this.props.match.params.id,
       created_at: timeStamp,
-    }
+    };
     return newNote;
-  }
-  
+  };
 }
-
 
 const useStyles = (theme) => ({
   root: {

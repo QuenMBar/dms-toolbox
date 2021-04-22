@@ -29,8 +29,6 @@ class CampaignController
         return @status, @headers, [res.to_json]
     end
 
-  
-
     def delete
         id = @req.path.split('/tasks/').last
         Task.find(id).delete
