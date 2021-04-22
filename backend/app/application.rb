@@ -22,6 +22,9 @@ class Application
         elsif path.match(/note/)
             note_req = NoteController.new(env)
             return note_req.send(verb.downcase)
+        elsif path.match(/sign_up/)
+            log_req = SignUpController.new(env)
+            return log_req.send(verb.downcase)
         else
             resp.write 'Path Not Found'
             return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]
