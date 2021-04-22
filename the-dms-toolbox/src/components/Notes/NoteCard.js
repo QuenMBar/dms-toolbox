@@ -23,11 +23,10 @@ const useStyles = makeStyles({
 });
 
 export default function NoteCard(props) {
-  const [isEditable, setIsEditable] = useState(false);
   const [input, setInput] = useState("");
+  const [textHelper, setTextHelper] = useState("Edit");
   const classes = useStyles();
   const date = props.note.created_at.split("T")[0];
-  const [textHelper, setTextHelper] = useState("Edit");
 
 
   const handleEdit = () => {
@@ -69,9 +68,10 @@ export default function NoteCard(props) {
           label={`${props.note.title} notes`}
           multiline
           rows={6}
+          fullWidth={true}
           defaultValue={`${props.note.text}`}
           onChange={(e) => handleChange(e)}
-          onBlur={()=> handleBlur()}
+          onBlur={() => handleBlur()}
         />
         <FormHelperText>{date}</FormHelperText>
       </CardContent>

@@ -46,6 +46,7 @@ export default function ErrorRadios(props) {
           />
         </RadioGroup>
         <TextField
+          fullWidth={true}
           id='filled-textarea'
           label='Note'
           placeholder='Type Note Here'

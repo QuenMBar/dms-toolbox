@@ -6,6 +6,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { Paper } from "@material-ui/core";
 
+
 //pages
 
 //import NoteForm from "./Notes/NoteForm";
@@ -68,10 +69,7 @@ class CampaignPage extends Component {
 
             {this.state.cNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
-                <NoteCard
-                  handleDele={this.handleDele}
-                  note={note}
-                />
+                <NoteCard handleDele={this.handleDele} note={note} />
               </GridListTile>
             ))}
 
@@ -79,10 +77,7 @@ class CampaignPage extends Component {
 
             {this.state.qNotes.map((note) => (
               <GridListTile key={note.id} cols={1}>
-                <NoteCard
-                  handleDele={this.handleDele}
-                  note={note}
-                />
+                  <NoteCard handleDele={this.handleDele} note={note} />
               </GridListTile>
             ))}
           </GridList>
