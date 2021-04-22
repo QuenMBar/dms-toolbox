@@ -13,24 +13,53 @@ import { Paper, Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: "95%",
-        height: 170,
+        height: 175,
         // padding: 5,
         // display: "inline-block",
         margin: "auto",
         background: "#cfd8dc",
+        ["@media (max-width:1260px)"]: {
+            height: 225,
+        },
     },
     formControl: {
-        margin: theme.spacing(3, 3, 1, 3),
+        margin: theme.spacing(3, 0, 1, 0),
+        width: "100%",
     },
     button: {
         margin: theme.spacing(3, 3, 1, 3),
         display: "inline-block",
         height: "fit-content",
         padding: 10,
+        width: "20%",
+        ["@media (max-width:1260px)"]: {
+            display: "inline",
+            width: "50%",
+            margin: theme.spacing(0),
+        },
     },
-    radials: { margin: theme.spacing(1.5, 3, 1, 3) },
-    textGroup: { margin: theme.spacing(3, 3, 1, 3), display: "inline-block" },
-    group: { display: "flex" },
+    radials: {
+        margin: theme.spacing(1.5, 3, 1, 3),
+        width: "20%",
+        ["@media (max-width:1260px)"]: {
+            display: "inline",
+            margin: theme.spacing(0),
+        },
+    },
+    textGroup: {
+        margin: theme.spacing(3, 3, 1, 3),
+        ["@media (max-width:1260px)"]: {
+            margin: theme.spacing(0),
+        },
+        display: "inline-block",
+        width: "60%",
+    },
+    group: {
+        width: "100%",
+        ["@media (min-width:1260px)"]: {
+            display: "flex",
+        },
+    },
     title: { color: "black" },
 }));
 
@@ -67,7 +96,6 @@ export default function ErrorRadios(props) {
                             id="filled-textarea"
                             label="Note"
                             placeholder="Type Note Here"
-                            multiline
                             variant="filled"
                             value={textField}
                             onChange={(e) => setTextField(e.target.value)}
