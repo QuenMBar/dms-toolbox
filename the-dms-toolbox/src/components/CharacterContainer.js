@@ -29,7 +29,7 @@ const useStyles = (theme) => ({
         "height": "96vh",
         "top": "2vh",
         "position": "absolute",
-        "right": "1vw",
+        "right": "2vw",
         "background": "rgba(120, 144, 156, .3)",
     },
     gridList: {
@@ -49,15 +49,86 @@ class CharacterContainer extends Component {
 
     // TODO: Replace with camp id
     componentDidMount() {
-        fetch(`http://127.0.0.1:9393/characters?campId=32`)
+        fetch(`http://127.0.0.1:9393/characters?campId=${this.props.campId}`)
             .then((res) => res.json())
             .then((characters) => {
+                characters = this.sanitizeResponse(characters);
                 this.setState({ characters: characters });
             })
             .catch((e) => {
                 console.error("e: ", e);
             });
     }
+
+    sanitizeResponse = (characters) => {
+        for (let o of characters) {
+            if (typeof o !== "object") continue;
+            for (let k in o) {
+                if (k == "items" || k == "notes") {
+                    for (let o2 of o[k]) {
+                        if (typeof o2 !== "object") continue;
+                        for (let k2 in o2) {
+                            if (!o2.hasOwnProperty(k2)) continue;
+                            let v2 = o2[k2];
+                            if (v2 === null || v2 === undefined) {
+                                o2[k2] = "";
+                            }
+                        }
+                    }
+                } else {
+                    if (!o.hasOwnProperty(k)) continue;
+                    let v = o[k];
+                    if (v === null || v === undefined) {
+                        o[k] = "";
+                    }
+                }
+            }
+        }
+        return characters;
+    };
+
+    unSanitize = (newCharacter) => {
+        for (let k in newCharacter) {
+            if (k == "items" || k == "notes") {
+                for (let o2 of newCharacter[k]) {
+                    if (typeof o2 !== "object") continue;
+                    for (let k2 in o2) {
+                        if (!o2.hasOwnProperty(k2)) continue;
+                        let v2 = o2[k2];
+                        if (v2 === "" || v2 === undefined) {
+                            o2[k2] = null;
+                        }
+                    }
+                }
+            } else {
+                if (!newCharacter.hasOwnProperty(k)) continue;
+                let v = newCharacter[k];
+                if (v === "" || v === undefined) {
+                    newCharacter[k] = null;
+                }
+            }
+        }
+
+        return newCharacter;
+    };
+
+    updateCharacter = (newCharacter) => {
+        newCharacter = this.unSanitize(newCharacter);
+        fetch(`http://127.0.0.1:9393/characters/${newCharacter.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCharacter),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success:", data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
 
     deleteNote = (noteId) => {
         console.log(noteId);
@@ -75,7 +146,12 @@ class CharacterContainer extends Component {
                 <GridList cellHeight="auto" className={classes.gridList} cols={1}>
                     {this.state.characters.map((char, i) => (
                         <GridListTile key={i} cols={1}>
-                            <CharacterCard char={char} deleteNote={this.deleteNote} />
+                            <CharacterCard
+                                char={char}
+                                deleteNote={this.deleteNote}
+                                createBool={false}
+                                updateCharacter={this.updateCharacter}
+                            />
                         </GridListTile>
                     ))}
                 </GridList>

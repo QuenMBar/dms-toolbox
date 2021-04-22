@@ -51,12 +51,12 @@ puts 'Seeding Characters 🧝🏻‍♂️🧝🏽‍♀️🧝🏽‍🧝🏾�
 end
 
 puts 'Writing Notes ✍🏻'
-10.times do
+40.times do
     Note.create(text: Faker::Books::Dune.quote, title: 'character', noteable: Character.all.sample)
     Note.create(text: Faker::Books::Dune.saying, title: 'campaign', noteable: Campaign.all.sample)
     Note.create(text: Faker::Books::Dune.saying, title: 'quest', noteable: Campaign.all.sample)
 end
 puts 'Forging Items 🔨'
-50.times { Item.create(name: item_variety, description: Faker::Lorem.sentence, itemable: Character.all.sample) }
+70.times { Item.create(name: item_variety, description: Faker::Lorem.sentence, itemable: Character.all.sample) }
 
 puts '🌱 Done Seeding 🌱'

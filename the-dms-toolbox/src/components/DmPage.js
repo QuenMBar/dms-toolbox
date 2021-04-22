@@ -50,7 +50,7 @@ export default class DmPage extends Component {
                         <Error />
                     </Route>
                 </Switch>
-                <CharacterContainer />
+                {/* <CharacterContainer /> */}
             </Fragment>
         );
     }
