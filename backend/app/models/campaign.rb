@@ -2,6 +2,7 @@ class Campaign < ActiveRecord::Base
     belongs_to :dm
     has_many :characters
     has_many :notes, as: :noteable
+    has_many :npcs
 
     def quest_notes
         notes.where(title: 'quest')
@@ -18,6 +19,16 @@ class Campaign < ActiveRecord::Base
                 nc = c.as_json
                 nc['items'] = c.items.as_json
                 nc['notes'] = c.notes.as_json
+                nc
+            end
+    end
+
+    def return_npcs
+        npcs
+            .includes(:items)
+            .map do |c|
+                nc = c.as_json
+                nc['items'] = c.items.as_json
                 nc
             end
     end
