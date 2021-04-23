@@ -108,8 +108,15 @@ class DmPage extends Component {
                     <Route path="/dm/:name/:id" component={CampaignPage}></Route>
 
                     <List className={classes.root} component="nav" aria-label="available campaigns">
-                        {this.state.camps.map((c) => {
-                            return <CampList handleSave={this.handleSave} handleDele={this.handleDele} camp={c} />;
+                        {this.state.camps.map((c, i) => {
+                            return (
+                                <CampList
+                                    handleSave={this.handleSave}
+                                    handleDele={this.handleDele}
+                                    camp={c}
+                                    key={c.id}
+                                />
+                            );
                         })}
                         <Fab className={classes.add} color="primary" aria-label="add">
                             <AddIcon onClick={this.addCamp} />
