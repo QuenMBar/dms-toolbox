@@ -42,9 +42,6 @@ class NpcController
                     trait: data['trait'],
                     bond: data['bond'],
                     flaw: data['flaw'],
-                    name: data['name'],
-                    name: data['name'],
-                    name: data['name'],
                     campaign: camp,
                 )
             data['items'].each { |i| Item.create(name: i['name'], description: i['description'], itemable: npc) }

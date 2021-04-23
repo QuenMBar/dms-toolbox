@@ -61,7 +61,6 @@ class CharacterContainer extends Component {
         newCharacters: [],
     };
 
-    // TODO: Replace with camp id
     componentDidMount() {
         fetch(`http://127.0.0.1:9393/characters?campId=${this.props.campId}`)
             .then((res) => res.json())
@@ -162,7 +161,6 @@ class CharacterContainer extends Component {
     };
 
     deleteCharacter = (id) => {
-        // TODO: Confirm
         fetch(`http://127.0.0.1:9393/characters/${id}/`, {
             method: "DELETE",
         })

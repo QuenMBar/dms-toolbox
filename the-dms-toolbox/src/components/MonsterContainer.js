@@ -70,13 +70,11 @@ class MonsterContainer extends Component {
         search: "",
     };
 
-    // TODO: Replace with camp id
     componentDidMount() {
         this.getMonsters();
     }
 
     getMonsters = () => {
-        // console.log("here");
         fetch(`http://127.0.0.1:9393/monster?search=${this.state.search}`)
             .then((res) => res.json())
             .then((monsters) => {

@@ -40,7 +40,6 @@ class App extends Component {
             <ThemeProvider theme={this.theme}>
                 <Router>
                     <div className="App">
-                        {/* localhost:3000/dm/:campaign_id/:subpages */}
                         <Route
                             exact
                             path="/"
