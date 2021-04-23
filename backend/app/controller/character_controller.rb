@@ -29,32 +29,30 @@ class CharacterController
 
     def post
         data = JSON.parse @req.body.read
-        if !path[2].nil?
-            begin
-                camp = Campaign.find(data['campaign_id'])
-            rescue StandardError
-                return 405, { 'Content-Type' => 'application/json' }, [{ message: 'No Character For That Id' }.to_json]
-            else
-                char =
-                    Character.create(
-                        name: data['name'],
-                        klass: data['klass'],
-                        race: data['race'],
-                        alignment: data['alignment'],
-                        language: data['language'],
-                        armor_class: data['armor_class'],
-                        level: data['level'],
-                        strength: data['strength'],
-                        dexterity: data['dexterity'],
-                        constitution: data['constitution'],
-                        intelligence: data['intelligence'],
-                        wisdom: data['wisdom'],
-                        charisma: data['charisma'],
-                        background: data['background'],
-                        campaign: camp,
-                    )
-                return 200, { 'Content-Type' => 'application/json' }, [char.return_everything.to_json]
-            end
+        begin
+            camp = Campaign.find(data['campaign_id'])
+        rescue StandardError
+            return 405, { 'Content-Type' => 'application/json' }, [{ message: 'No Character For That Id' }.to_json]
+        else
+            char =
+                Character.create(
+                    name: data['name'],
+                    klass: data['klass'],
+                    race: data['race'],
+                    alignment: data['alignment'],
+                    language: data['language'],
+                    armor_class: data['armor_class'],
+                    level: data['level'],
+                    strength: data['strength'],
+                    dexterity: data['dexterity'],
+                    constitution: data['constitution'],
+                    intelligence: data['intelligence'],
+                    wisdom: data['wisdom'],
+                    charisma: data['charisma'],
+                    background: data['background'],
+                    campaign: camp,
+                )
+            return 200, { 'Content-Type' => 'application/json' }, [char.return_everything.to_json]
         end
     end
 

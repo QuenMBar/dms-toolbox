@@ -6,10 +6,10 @@ import Navbar from "./Navbar";
 //todo[]Add button to go back home
 
 export default function Error() {
-  return (
-    <>
-      <Navbar />
-      <h1>ERROR PAGE DOES NOT EXIST</h1>
-    </>
-  );
+    return (
+        <>
+            <Navbar />
+            <h1>ERROR PAGE DOES NOT EXIST</h1>
+        </>
+    );
 }

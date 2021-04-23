@@ -429,12 +429,9 @@ class CharacterCard extends Component {
                 />
                 {/* <CardMedia className={classes.media} image="/static/images/cards/paella.jpg" title="Paella dish" /> */}
                 <CardContent>
-                    {/* TODO: Add Gender, walking speed, and Proficiencies if theres time */}
-
                     <Typography variant="h6" color="textSecondary" component="p">
                         Quick Stats:
                     </Typography>
-                    {/* Level: Proficiency Bonus: Ac: Init: Passive Perception: alignment: */}
                     <div className={classes.listDiv}>
                         <List dense={true} className={classes.listRoot}>
                             <ListItem>

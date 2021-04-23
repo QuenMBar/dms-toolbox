@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_19_185238) do
+ActiveRecord::Schema.define(version: 2021_04_23_000156) do
 
   create_table "campaigns", force: :cascade do |t|
     t.string "name"
@@ -58,6 +58,24 @@ ActiveRecord::Schema.define(version: 2021_04_19_185238) do
     t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
   end
 
+  create_table "monsters", force: :cascade do |t|
+    t.string "name"
+    t.string "meta"
+    t.string "armor_class"
+    t.string "hit_points"
+    t.string "speed"
+    t.string "stats"
+    t.string "senses"
+    t.string "languages"
+    t.string "challenge"
+    t.string "traits"
+    t.string "actions"
+    t.string "legendary_actions"
+    t.string "img_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "notes", force: :cascade do |t|
     t.string "noteable_type"
     t.integer "noteable_id"
@@ -66,6 +84,23 @@ ActiveRecord::Schema.define(version: 2021_04_19_185238) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["noteable_type", "noteable_id"], name: "index_notes_on_noteable_type_and_noteable_id"
+  end
+
+  create_table "npcs", force: :cascade do |t|
+    t.string "name"
+    t.string "appearance"
+    t.string "best_ability"
+    t.string "worst_ability"
+    t.string "talent"
+    t.string "ideal"
+    t.string "mannerism"
+    t.string "trait"
+    t.string "bond"
+    t.string "flaw"
+    t.integer "campaign_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_npcs_on_campaign_id"
   end
 
 end

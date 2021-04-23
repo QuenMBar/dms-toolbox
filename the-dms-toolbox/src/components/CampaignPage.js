@@ -11,6 +11,8 @@ import CharacterContainer from "./CharacterContainer";
 
 import NoteCard from "./Notes/NoteCard";
 import NoteForm from "./Notes/NoteForm";
+import MonsterContainer from "./MonsterContainer";
+import NpcContainer from "./NpcContainer";
 
 const URL = "http://localhost:9393/campaign/";
 const noteURL = "http://localhost:9393/note/";
@@ -83,7 +85,8 @@ class CampaignPage extends Component {
                         </GridList>
                     </Paper>
                 </div>
-
+                <MonsterContainer />
+                <NpcContainer campId={this.state.campId} />
                 <CharacterContainer campId={this.state.campId} />
             </Fragment>
         );
@@ -217,12 +220,12 @@ const useStyles = (theme) => ({
         position: "absolute",
         left: "1vw",
         ["@media (max-width:760px)"]: {
-            width: "98vw",
+            width: "97vw",
             top: "30px",
             // bottom: "1vh",
             height: "fit-content",
             position: "relative",
-            left: "1vw",
+            left: "0vw",
             marginBottom: 20,
         },
     },

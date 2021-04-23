@@ -25,6 +25,12 @@ class Application
         elsif path.match(/sign_up/)
             log_req = SignUpController.new(env)
             return log_req.send(verb.downcase)
+        elsif path.match(/monster/)
+            log_req = MonsterController.new(env)
+            return log_req.send(verb.downcase)
+        elsif path.match(/npc/)
+            log_req = NpcController.new(env)
+            return log_req.send(verb.downcase)
         else
             resp.write 'Path Not Found'
             return 405, { 'Content-Type' => 'application/json' }, [{ message: 'Bad Request' }]

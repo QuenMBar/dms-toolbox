@@ -36,23 +36,3 @@
         transform: rotate(360deg);
     }
 }
-
-/* .loginPaper {
-    height: 300px;
-    width: 600px;
-    margin: auto;
-    margin-top: 20vh;
-} */
-
-/* TODO: Make elements not right next to eachother
-.loginUser {
-    width: 300px;
-}
-
-.loginPass {
-    width: 300px;
-}
-
-.loginBttn {
-    width: 140px;
-} */
