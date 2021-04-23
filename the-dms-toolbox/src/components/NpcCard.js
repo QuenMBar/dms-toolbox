@@ -3,26 +3,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { List, ListItem, Table } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -56,7 +48,6 @@ export default function NpcCard(props) {
     return (
         <Card className={classes.root}>
             <CardHeader
-                // avatar={<Avatar alt="M" src={props.mon.img_url} aria-label="mon img" />}
                 action={
                     <IconButton onClick={() => props.deleteNpcs(props.npc.id)} aria-label="close">
                         <DeleteForeverIcon color="secondary" />
@@ -65,7 +56,6 @@ export default function NpcCard(props) {
                 title={props.npc.name}
                 subheader={props.npc.appearance}
             />
-            {/* <CardMedia className={classes.media} image="/static/images/cards/paella.jpg" title="Paella dish" /> */}
             <CardContent>
                 <List dense={true}>
                     <ListItem>Good at: {props.npc.best_ability}</ListItem>
@@ -79,12 +69,6 @@ export default function NpcCard(props) {
                 </List>
             </CardContent>
             <CardActions disableSpacing>
-                {/* <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton> */}
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,

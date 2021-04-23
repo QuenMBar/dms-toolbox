@@ -1,14 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { createMuiTheme } from "@material-ui/core/styles";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import CharacterCard from "./CharacterCard";
-import { IconButton, Paper, ThemeProvider } from "@material-ui/core";
-import blue from "@material-ui/core/colors/blue";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
-import blueGrey from "@material-ui/core/colors/blueGrey";
+import { IconButton, Paper } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const useStyles = (theme) => ({

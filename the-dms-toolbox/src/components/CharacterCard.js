@@ -24,7 +24,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const useStyles = (theme) => ({
     root: {

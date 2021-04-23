@@ -53,9 +53,6 @@ class CampaignPage extends Component {
         const { classes } = this.props;
         return (
             <Fragment>
-                {/* <div>
-                    <h1>Now showing campaign {this.state.name} </h1>
-                </div> */}
                 <div className={classes.notesDiv}>
                     <NoteForm
                         radio={this.state.radio}
@@ -147,7 +144,7 @@ class CampaignPage extends Component {
             });
         }
     };
-    
+
     //*Post to our server and then resets the form
     updateNote = (newNote, event) => {
         let configObj = {
