@@ -136,17 +136,27 @@ class DmPage extends Component {
 }
 
 const useStyles = (theme) => ({
-  root: {
-    width: "33vw",
-    left: "33vw",
-    height: "fit-content",
-    background: "rgba(120, 144, 156, .3)",
-    marginTop: 100,
-    marginBottom: 200,
-    paddingBottom: 50,
-    position: "absolute",
-  },
-  add: { marginTop: 25 },
+
+    root: {
+        width: "33vw",
+        left: "33vw",
+        height: "fit-content",
+        background: "rgba(120, 144, 156, .3)",
+        marginTop: 100,
+        marginBottom: 200,
+        paddingBottom: 50,
+        position: "absolute",
+        ["@media (max-width:1005px)"]: {
+            width: "98vw",
+            left: "1vw",
+            marginTop: 40,
+            marginBottom: 200,
+            paddingBottom: 50,
+            position: "relative",
+        },
+    },
+    add: { marginTop: 25 },
+
 });
 
 export default withStyles(useStyles)(DmPage);
