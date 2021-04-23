@@ -5,7 +5,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { Paper, Typography } from "@material-ui/core";
@@ -14,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: "95%",
         height: 175,
-        // padding: 5,
-        // display: "inline-block",
         margin: "auto",
         background: "#cfd8dc",
         ["@media (max-width:1260px)"]: {
