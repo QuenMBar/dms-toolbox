@@ -20,6 +20,16 @@ class CampaignController
         el.length == 0? "No Notes" : el
     end 
 
+    def patch 
+        data = JSON.parse @req.body.read
+        c = Campaign.find(@id)
+        c.update(name: data["name"])
+       #binding.pry
+        return @status, @headers,  [{ message: 'Campaign updated!' }.to_json]
+    end
+
+
+
     def get
         camp = Campaign.find(@id)
         q_notes, c_notes = camp.quest_notes, camp.campaign_notes
@@ -30,8 +40,8 @@ class CampaignController
     end
 
     def delete
-        id = @req.path.split('/tasks/').last
-        Task.find(id).delete
-        return @status, @headers,  [{ message: 'Task deleted!' }.to_json]
+        id = @req.path.split('/campaign/').last
+        Campaign.find(id).delete
+        return @status, @headers,  [{ message: 'Campaign deleted!' }.to_json]
     end
 end
