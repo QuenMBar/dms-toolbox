@@ -1,47 +1,132 @@
-# Project Requirements
+# Dungeon Master's Toolbox
 
-### Option One - _Data Analytics Project_
+### Table of Contents
+1. [Purpose](#purpose)
+2. [Demo](#demo)
+3. [Features](#features)
+   1. [Sign-In](#sign-in)
+   1. [DM Page](#dm)
+   1. [Campain Page](#campaign)
+    1. [Note Bar](#notes)
+    1. [Monster Search](#monsters)
+    1. [NPC Builder](#npc)
+    1. [Character Sheets](#character)
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have at minimum three models including one join model. This means you must have a many-to-many relationship.
-3. You should seed your database using data that you collect either from a CSV, a website by scraping, or an API.
-4. Your models should have methods that answer interesting questions about the data. For example, if you've collected info about movie reviews, what is the most popular movie? What movie has the most reviews?
-5. You should provide a simple **React** frontend to display the return values of your interesting methods.
-6. Use good OO design patterns. You should have separate classes for your models
+2. [The Struggle is Real](#struggle)
 
-- **Resource:** [Easy Access APIs](http://github.com/learn-co-curriculum/easy-access-apis)
+4. [Planning vs Production](#planning)
+5. [Our Favorite Sections of Code](#favorites)
 
-### Option Two - _CRUD App_
 
-1. Access a Sqlite3 Database using ActiveRecord.
-2. You should have a minimum of three models.
-3. You should build out a simple **React** frontend to give your user full CRUD ability for at least one of your resources. For example, build out a To-Do list. A user should be able to create a new to-do, see all todos, update a todo item, and delete a todo. Todos can be grouped into categories, so that a to-do has many categories and categories have many to-dos.
-4. Use good OO design patterns. You should have separate classes for your models.
-Getting started
-Clone down this repository to use as your backend. The rack folder has all of the basics for a rack application.
-The application.rb has an example GET route.
-Run the rack server
+## Purpose <a name="purpose"></a>
+Online tools for DM’s are pretty bloated and typically difficult to navigate. With our Dungeon Master’s ToolKit you can easily run through and keep track of vital notes, check character or monster statistics, or make an npc on the fly. 
 
-### Getting Started
+## Demo <a name="demo"></a>
 
-1. Clone down this repository.
-2. A basic rack app is located in the backend folder.
-3. First run _bundle_ in your backend folder to install your gems
-4. application.rb has an example GET route, replace this route with routes for your project!
+As a user I can: 
+* Sign in, or Sign-up for an account.
+* I can see my existing campaigns or create a new campaign. 
+* I can edit, save or delete campaigns. 
+* I can explore the campaign to show details. 
+* In the individual campaign I can make notes on the campaign itself, on specific quests, or on characters. 
+* I can generate a new npc with random qualities on the fly.
+* I can check the stats of any monster.
+* I can keep track of the characters in my game. 
+* I can edit, save or delete any of these.
 
-**Start your server with:**
-` shotgun --port=9292 `
+![campaign page](/the-dms-toolbox/img/campaign.png)
 
-> **Note:** This will run your server on port http://localhost:9292.
-> [shotgun](https://github.com/rtomayko/shotgun) is a ruby gem that will automatic reload your rack server. You may still need to refresh your browser to see changes.
+## Features <a name="features"></a>
 
-5. Your backend and your frontend should be in two different repositories. Create a new repository with a react app for your frontend.
+### Sign-In  <a name="sign-in"></a>
 
-**Fetch example**
->  Your react app should make fetch requests to your rack backend!
+Dynamic login or sign-up page. Will check for unique users, will persist in database. 
 
-```js
-   fetch("http://localhost:9292/test")
-    .then(res => res.json())
-    .then(console.log)
-```
+![sign-in](/the-dms-toolbox/img/login-sign-up.png)
+
+### DM Page <a name="dm"></a>
+
+Displays a list of campaigns that the user/current DM is managing. 
+
+* Can see my existing campaigns or create a new campaign. 
+* Can edit, save or delete campaigns. 
+* Can explore the campaign to show details. 
+
+![](/the-dms-toolbox/img/campaign-edit.png)
+
+### Campaign Page <a name="campaign"></a>
+
+Displays a list of campaigns that the user/current DM is managing. 
+
+*In the individual campaign I can make notes on the campaign itself, on specific quests, or on characters. 
+* Can keep track of the characters in my game. 
+* Can generate a new npc with random qualities on the fly
+* Can check the stats of any monster
+* Can edit, save or delete any of these
+
+
+![Campaign Page](/the-dms-toolbox/img/campaign.png)
+
+#### Note Bar <a name="notes"></a>
+
+The user is able to take notes on the campaign, or the individual quest. 
+
+![Campaign Page](/the-dms-toolbox/img/note-edit-gif.gif)
+
+#### Monster Search <a name="monsters"></a>
+
+Dynamically search monsters, or refresh to get a new random 20.
+
+![Campaign Page](/the-dms-toolbox/img/monsters.gif)
+
+#### NPC Builder <a name="npc"></a>
+
+Instantally generates an NPC with characteristics and with items that you can use in your campaign on the fly. 
+
+![Campaign Page](/the-dms-toolbox/img/npc.gif)
+
+#### Character Sheets <a name="character"></a>
+
+Can keep track of the characters in your campaign, or also build a more indepth NPC quickly. 
+
+* **Large** Selection of editable fields, statistics and items. 
+* **Custom** Items
+* **Dynamic** Notes that persist on each character. 
+
+
+![Campaign Page](/the-dms-toolbox/img/char-edit.gif)
+
+
+## Struggles
+
+**Q :**
+
+The character sheets are a mystery to even me now.  If they ever break, they’re broken!
+
+ Getting css to line everything up.
+
+ **R :** 
+
+ Jumping back into React after diving into Ruby was a difficulty. I wanted to practice with React hooks and with React Router but I also wanted to make an awesome project. So finding a middle ground, where I have to use techniques that I know because there is a large workload but balancing trying to do new techniques. Which takes longer because there is a learning curve. 
+
+ The login mechanics with React Router. How it works, no one will ever know, but looking forward to working with a tool that solves that for us. 
+
+ CORS- just always hitting those issues, and with React the errors are not very verbose so pattern recognition will grow eventually but frustrating on a deadline. 
+
+ ## Favorites
+
+ Favorite parts of code that we wrote.
+
+**Q :**
+
+ Monsters looking as good as they do, plus reading in the data
+ 
+ Getting css to line everything up!
+
+ **R :** 
+ 
+Creating controllers to deal with the requests 
+
+Learning more about hooks. 
+
+Creating dynamic fetch functions.  
