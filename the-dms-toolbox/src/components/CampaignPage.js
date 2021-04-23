@@ -107,13 +107,6 @@ class CampaignPage extends Component {
         });
     };
 
-    // //*Controls the text input
-    // handleTextChange = (event) => {
-    //     this.setState({
-    //         text: event.target.value,
-    //     });
-    // };
-
     //*Controls the radio button
     handleRadioChange = (event) => {
         this.setState({
@@ -151,6 +144,7 @@ class CampaignPage extends Component {
             });
         }
     };
+    
     //*Post to our server and then resets the form
     updateNote = (newNote, event) => {
         let configObj = {
